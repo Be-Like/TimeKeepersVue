@@ -2,13 +2,21 @@
   "name": "time-keepers-vue",
   "version": "0.1.0",
   "private": true,
+  "main": "server.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "client": "vue-cli-service serve",
+    "server": "nodemon server",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
+    "axios": "^0.19.2",
+    "config": "^3.3.1",
     "core-js": "^3.6.4",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "mongoose": "^5.9.6",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2"
