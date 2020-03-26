@@ -28,6 +28,7 @@ router.post(
 
     const { name, email, password } = req.body;
 
+    console.log('Made it here', req.body)
     try {
       // Validate that user does not already exist
       let user = await User.findOne({ email });
