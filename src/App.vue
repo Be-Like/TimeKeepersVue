@@ -28,7 +28,9 @@ export default {
 #nav {
   background: #edfabe;
   text-align: left;
+  position: absolute;
   width: 100%;
+  z-index: 99;
 
   a {
     font-weight: bold;
