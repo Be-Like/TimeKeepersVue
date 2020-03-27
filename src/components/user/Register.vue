@@ -4,7 +4,7 @@
       <div class="background-overlay"/>
     </div>
     <form @submit.prevent="register">
-      <h2>Hello Register</h2>
+      <h2>TimeKeepers Sign Up</h2>
       <div class="form-group">
         <input
           class="form-control"
@@ -46,8 +46,9 @@
 </template>
 
 <script>
-import axios from 'axios'
-// import { register } from '../../REST/authentication'
+import { register } from '../../REST/authentication'
+import setAuthToken from '../../REST/setAuthToken'
+import { mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -59,23 +60,33 @@ export default {
     }
   },
 
+// TODO: Reinstate this once logout fuctionality is complete
+  // mounted() {
+  //   if (this.$store.state.auth.isAuthenticated) {
+  //     this.$router.push({ name: 'Dashboard' })
+  //   }
+  // },
+
   methods: {
-    register() {
-      console.log(this.$data)
-      const formData = {
-        name: this.name,
-        email: this.email,
-        password: this.password
-      }
-
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
+    ...mapMutations(['setAuthentication']),
+    async register() {
+      const name = this.name
+      const email = this.email
+      const password = this.password
+      const confirmPassword = this.confirmPassword
+      if(password !== confirmPassword) {
+        alert("Passwords do not match.")
+      } else {
+        const res = await register({ name, email, password })
+        if (res.errors) {
+          console.log('Errors reported', res.errors)
+          return
         }
+        this.$cookies.set('authToken', res.token)
+        setAuthToken(res.token)
+        this.setAuthentication(this.$cookies.isKey('authToken'))
+        this.$router.push({ name: 'Dashboard' })
       }
-
-      axios.post('/api/register', formData, config)
-      // register({ name, email, password })
     }
   }
 }

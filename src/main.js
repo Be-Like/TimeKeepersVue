@@ -3,9 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:5000'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 
 Vue.config.productionTip = false
 

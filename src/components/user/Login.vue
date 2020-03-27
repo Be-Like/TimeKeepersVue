@@ -30,6 +30,10 @@
 </template>
 
 <script>
+import { login } from '../../REST/authentication'
+import setAuthToken from '../../REST/setAuthToken'
+import { mapMutations } from 'vuex'
+
 export default {
   data() {
     return {
@@ -38,9 +42,29 @@ export default {
     }
   },
 
+// TODO: Reinstate this once logout fuctionality is complete
+  // mounted() {
+  //   if (this.$store.state.auth.isAuthenticated) {
+  //     this.$router.push({ name: 'Dashboard' })
+  //   }
+  // },
+
   methods: {
-    login() {
-      console.log(this.$data)
+    ...mapMutations(['setAuthentication']),
+    async login() {
+      const email = this.email
+      const password = this.password
+
+      const res = await login({ email, password })
+      if (res.errors) {
+        console.log('Login Error:', res.errors)
+        return
+      }
+
+      this.$cookies.set('authToken', res.token)
+      setAuthToken(res.token)
+      this.setAuthentication(this.$cookies.isKey('authToken'))
+      this.$router.push({ name: 'Dashboard' })
     }
   }
 }
@@ -48,7 +72,7 @@ export default {
 
 <style scoped>
   .login-container {
-    align-items: center;
+    text-align: center;
     position: absolute;
     top: 50%;
     left: 50%;

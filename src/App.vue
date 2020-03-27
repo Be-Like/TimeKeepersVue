@@ -7,38 +7,27 @@
 
 <script>
 import Navbar from './components/navigation/Navbar'
+import setAuthToken from './REST/setAuthToken'
+import { mapMutations } from 'vuex'
+
 export default {
   components: {
     Navbar
+  },
+
+  created() {
+    if (this.$cookies.isKey('authToken')) {
+      setAuthToken(this.$cookies.get('authToken'))
+      this.setAuthentication(true)
+    }
+  },
+
+  methods: {
+    ...mapMutations(['setAuthentication'])
   }
 }
 </script>
 
 <style lang="scss">
 @import './stylesheet/application.scss';
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  background: #edfabe;
-  text-align: left;
-  position: absolute;
-  width: 100%;
-  z-index: 99;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
