@@ -2,14 +2,27 @@
   <header>
     <div class="navbar-content">
       <router-link class="navbar-title" to="/">TimeKeepers</router-link>
-      <router-link to="/about">About</router-link>
+      <router-link to="/dashboard">Dashboard</router-link>
+      <router-link to="/">Management</router-link>
+      <router-link to="/">Accounting</router-link>
+      <router-link to="/">Expenses</router-link>
+      <router-link to="/">Calendar</router-link>
+      <div class="logout-button" @click="logout">Logout</div>
     </div>
   </header>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
-
+  methods: {
+    ...mapMutations(['setAuthentication']),
+    logout() {
+      this.$cookies.remove('authToken')
+      this.setAuthentication(false)
+      this.$router.push({name: 'Home' })
+    }
+  }
 }
 </script>
 
@@ -42,7 +55,7 @@ export default {
     white-space: nowrap;
   }
 
-  a {
+  a, .logout-button {
     align-content: bottom;
     color: #2c3e50;
     font-weight: bold;
@@ -52,5 +65,15 @@ export default {
     &.router-link-exact-active {
       color: #42b983;
     }
+
+    &:hover {
+      color: purple
+    }
   }
+
+  .logout-button:hover {
+    cursor: pointer;
+    color: red
+  }
+
 </style>

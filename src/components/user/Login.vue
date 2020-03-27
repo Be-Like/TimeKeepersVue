@@ -42,12 +42,11 @@ export default {
     }
   },
 
-// TODO: Reinstate this once logout fuctionality is complete
-  // mounted() {
-  //   if (this.$store.state.auth.isAuthenticated) {
-  //     this.$router.push({ name: 'Dashboard' })
-  //   }
-  // },
+  mounted() {
+    if (this.$store.state.auth.isAuthenticated) {
+      this.$router.push({ name: 'Dashboard' })
+    }
+  },
 
   methods: {
     ...mapMutations(['setAuthentication']),
