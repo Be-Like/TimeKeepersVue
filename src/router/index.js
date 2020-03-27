@@ -3,6 +3,10 @@ import VueRouter from 'vue-router'
 import NotFound from '../views/NotFound'
 import Home from '../views/Home'
 import Dashboard from '../views/Dashboard'
+import Management from '../views/Management'
+import Accounting from '../views/Accounting'
+import Expenses from '../views/Expenses'
+import Calendar from '../views/Calendar'
 
 Vue.use(VueRouter)
 
@@ -26,6 +30,38 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/management',
+    name: 'Management',
+    component: Management,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/accounting',
+    name: 'Accounting',
+    component: Accounting,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/expenses',
+    name: 'Expenses',
+    component: Expenses,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/calendar',
+    name: 'Calendar',
+    component: Calendar,
     meta: {
       requiresAuth: true
     }

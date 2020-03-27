@@ -2,19 +2,26 @@
   <header>
     <div class="navbar-content">
       <router-link class="navbar-title" to="/">TimeKeepers</router-link>
-      <router-link to="/dashboard">Dashboard</router-link>
-      <router-link to="/">Management</router-link>
-      <router-link to="/">Accounting</router-link>
-      <router-link to="/">Expenses</router-link>
-      <router-link to="/">Calendar</router-link>
-      <div class="logout-button" @click="logout">Logout</div>
+      <router-link v-if="auth.isAuthenticated" to="/dashboard">Dashboard</router-link>
+      <router-link v-if="auth.isAuthenticated" to="/management">Management</router-link>
+      <router-link v-if="auth.isAuthenticated" to="/accounting">Accounting</router-link>
+      <router-link v-if="auth.isAuthenticated" to="/expenses">Expenses</router-link>
+      <router-link v-if="auth.isAuthenticated" to="/calendar">Calendar</router-link>
+      <div v-if="auth.isAuthenticated" class="spacer"></div>
+      <div v-if="auth.isAuthenticated" class="logout-button" @click="logout">Logout</div>
     </div>
   </header>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
+  computed: {
+    ...mapState({
+      auth: state => state.auth
+    })
+  },
+
   methods: {
     ...mapMutations(['setAuthentication']),
     logout() {
@@ -76,4 +83,7 @@ export default {
     color: red
   }
 
+  .spacer {
+    flex-grow: 1 !important;
+  }
 </style>
