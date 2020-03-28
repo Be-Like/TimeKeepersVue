@@ -8,9 +8,9 @@
         <h2>This is the Management page</h2>
       </div>
     </div>
-    <div class="job-info-modal">
+    <!-- <div class="job-info-modal">
       <h3>This will be the popup modal</h3>
-    </div>
+    </div> -->
   </div>
 </template>
 

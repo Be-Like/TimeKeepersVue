@@ -1,6 +1,15 @@
 <template>
   <div>
-    <h3>This will be the job list</h3>
+    <!-- Header with a button to add a new job -->
+    <div class="row job-list-header">
+      <div class="col-9">
+        <h3>Job's List</h3>
+      </div>
+      <div class="col-3 actions">
+        <i class="material-icons">add</i>
+      </div>
+    </div>
+    <!-- Content: Job List -->
   </div>
 </template>
 
@@ -9,3 +18,24 @@ export default {
 
 }
 </script>
+
+<style lang="scss" scoped>
+  .job-list-header {
+    align-items: center;
+    // background-color: #fff;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
+    padding: 10px 10px;
+
+    .actions {
+      text-align: right;
+
+      i {
+        cursor: pointer;
+
+        &:hover {
+          color: #42b983;
+        }
+      }
+    }
+  }
+</style>
