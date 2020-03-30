@@ -9,78 +9,108 @@
         </div>
         <!-- Body -->
         <div class="modal-body">
-          <input
-            type="text"
-            placeholder="Company"
-          >
-          <input
-            type="text"
-            placeholder="Job Title"
-          >
-          <input
-            type="number"
-            placeholder="Pay/Pay Rate"
-          >
-          <input
-            type="text"
-            placeholder="Pay Period"
-          >
-          <input
-            type="text"
-            placeholder="Street Address"
-          >
-          <input
-            type="text"
-            placeholder="City"
-          >
-          <input
-            type="text"
-            placeholder="State"
-          >
-          <input
-            type="text"
-            placeholder="Country"
-          >
-          <input
-            type="text"
-            placeholder="Zip Code"
-          >
-          <input
-            type="text"
-            placeholder="Phone Number"
-          >
-          <input
-            type="text"
-            placeholder="Email"
-          >
-          <input
-            type="text"
-            placeholder="Website"
-          >
-          <input
-            type="text"
-            placeholder="Federal Income Tax"
-          >
-          <input
-            type="text"
-            placeholder="State Income Tax"
-          >
-          <input
-            type="text"
-            placeholder="Social Security"
-          >
-          <input
-            type="text"
-            placeholder="Medicare"
-          >
-          <input
-            type="text"
-            placeholder="Individual Retirement"
-          >
-          <input
-            type="text"
-            placeholder="Other Withholdings"
-          >
+          <div class="form-group">
+            <label>Job Information</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Company"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Job Title"
+            >
+            <input
+              class="form-control"
+              type="number"
+              placeholder="Pay/Pay Rate"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Pay Period"
+            >
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Street Address"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="City"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="State"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Country"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Zip Code"
+            >
+          </div>
+          <div class="form-group">
+            <label>Contact Information</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Phone Number"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Email"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Website"
+            >
+          </div>
+          <div class="form-group">
+            <label>Taxes and Withholdings</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Federal Income Tax"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="State Income Tax"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Social Security"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Medicare"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Individual Retirement"
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Other Withholdings"
+            >
+          </div>
         </div>
         <!-- Actions -->
         <div class="modal-actions">
@@ -101,3 +131,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .modal-title {
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
+  }
+</style>

@@ -19,7 +19,8 @@
   max-height: 80%;
   max-width: 600px;
   background-color: #ffffff;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   pointer-events: auto;
   transform-origin: center center;
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -41,12 +42,14 @@
 }
 
 .modal-body {
-  padding: 0 24px 20px;
+  padding: 20px 24px;
+  overflow-y: auto;
 }
 
 .modal-actions {
   align-items: center;
   display: flex;
+  float: right;
   padding: 8px;
 }
 
