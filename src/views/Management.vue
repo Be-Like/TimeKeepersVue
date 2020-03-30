@@ -8,17 +8,18 @@
         <h2>This is the Management page</h2>
       </div>
     </div>
-    <!-- <div class="job-info-modal">
-      <h3>This will be the popup modal</h3>
-    </div> -->
+    <JobInfoModal />
   </div>
 </template>
 
 <script>
 import JobList from '../components/management/JobList'
+import JobInfoModal from '../components/management/JobInfoModal'
+
 export default {
   components: {
-    JobList
+    JobList,
+    JobInfoModal
   }
 }
 </script>

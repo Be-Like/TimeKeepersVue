@@ -4,27 +4,27 @@
     <h4 class="subtitle">It's time to simplify your time.</h4>
     <form @submit.prevent="login">
       <div class="form-group">
-      <input
-        class='form-control'
-        v-model="email"
-        type="email"
-        placeholder="Email Address"
-      />
-    </div>
-    <div class="form-group">
-      <input
-        class='form-control'
-        v-model="password"
-        type="password"
-        placeholder="Password"
-      />
-    </div>
-    <p class="register-prompt">
-      Don't have an account? <router-link to='/register'>Sign Up</router-link>
-    </p>
-    <button type="submit" class="btn btn-outline-primary">
-      Sign In
-    </button>
+        <input
+          class='form-control'
+          v-model="email"
+          type="email"
+          placeholder="Email Address"
+        />
+      </div>
+      <div class="form-group">
+        <input
+          class='form-control'
+          v-model="password"
+          type="password"
+          placeholder="Password"
+        />
+      </div>
+      <p class="register-prompt">
+        Don't have an account? <router-link to='/register'>Sign Up</router-link>
+      </p>
+      <button type="submit" class="btn btn-outline-primary">
+        Sign In
+      </button>
     </form>
   </div>
 </template>
