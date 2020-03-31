@@ -8,18 +8,25 @@
         <h2>This is the Management page</h2>
       </div>
     </div>
-    <JobInfoModal />
+    <JobInfoModal v-if="management.showJobModal" />
   </div>
 </template>
 
 <script>
 import JobList from '../components/management/JobList'
 import JobInfoModal from '../components/management/JobInfoModal'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     JobList,
     JobInfoModal
+  },
+
+  computed: {
+    ...mapState({
+      management: state => state.management
+    })
   }
 }
 </script>

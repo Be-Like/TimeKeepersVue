@@ -6,7 +6,7 @@
         <h3>Job's List</h3>
       </div>
       <div class="col-3 actions">
-        <i class="material-icons">add</i>
+        <i class="material-icons" @click="setShowJobModal(true)">add</i>
       </div>
     </div>
     <!-- Content: Job List -->
@@ -14,8 +14,11 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
-
+  methods: {
+    ...mapMutations(['setShowJobModal'])
+  }
 }
 </script>
 

@@ -46,14 +46,14 @@ router.post(
         state,
         zipcode,
         country,
-        phoneNumber,
+        phone,
         email,
         website,
         federalIncomeTax,
         stateIncomeTax,
         socialSecurity,
         medicare,
-        individualRetirement,
+        retirement,
         otherWithholdings
       } = req.body;
 
@@ -69,14 +69,14 @@ router.post(
         state,
         zipcode,
         country,
-        phoneNumber,
+        phone,
         email,
         website,
         federalIncomeTax,
         stateIncomeTax,
         socialSecurity,
         medicare,
-        individualRetirement,
+        retirement,
         otherWithholdings
       });
 
