@@ -12,6 +12,7 @@
           type="text"
           placeholder="Name"
         >
+        <div class="form-error" v-if="validations.name">Name is required</div>
       </div>
       <div class="form-group">
         <input
@@ -21,6 +22,7 @@
           placeholder="Email Address"
         >
       </div>
+      <div class="form-error" v-if="validations.email">Email is required</div>
       <div class="form-group">
         <input
           class="form-control"
@@ -56,7 +58,12 @@ export default {
       name: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      validations: {
+        name: null,
+        email: null
+      },
+      isValid: false
     }
   },
 
@@ -73,6 +80,10 @@ export default {
       const email = this.email
       const password = this.password
       const confirmPassword = this.confirmPassword
+      this.validateForm()
+      if (!this.isValid) {
+        return
+      }
       if(password !== confirmPassword) {
         alert("Passwords do not match.")
       } else {
@@ -85,6 +96,14 @@ export default {
         setAuthToken(res.token)
         this.setAuthentication(this.$cookies.isKey('authToken'))
         this.$router.push({ name: 'Dashboard' })
+      }
+    },
+    validateForm() {
+      this.validations.name = this.name ? false : true
+      this.validations.email = this.email ? false : true
+
+      if (!this.validations.name || !this.validations.email) {
+        this.isValid = true
       }
     }
   }

@@ -23,6 +23,13 @@
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
+.form-error {
+  color: red;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  margin-left: 10px;
+}
+
 .btn {
   display: inline-block;
     font-weight: 400;
