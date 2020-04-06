@@ -24,6 +24,9 @@ router.post(
       .isEmpty(),
     check('payPeriod', 'Pay Period is required')
       .not()
+      .isEmpty(),
+    check('payDate', 'Pay Date is required')
+      .not()
       .isEmpty()
   ],
   async (req, res) => {
@@ -39,8 +42,9 @@ router.post(
       const {
         company,
         jobTitle,
-        pay,
         payPeriod,
+        payDate,
+        pay,
         street,
         city,
         state,
@@ -62,8 +66,9 @@ router.post(
         user: req.user.id,
         company,
         jobTitle,
-        pay,
         payPeriod,
+        payDate,
+        pay,
         street,
         city,
         state,
