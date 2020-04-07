@@ -27,29 +27,34 @@
             <div class="form-error" v-if="validations.jobTitle">Job title is required</div>
           </div>
           <div class="form-group">
-            <label class="section-label">Compensation Information</label>
-            <input
-              v-model="formData.paymentType"
-              name="salary-type"
-              type="radio"
-              value="hourly"
-            >
-            <label for="hourly">Hourly</label>
-            <input
-              v-model="formData.paymentType"
-              name="salary-type"
-              type="radio"
-              value="salary"
-            >
-            <label for="Salary">Salary</label>
-            <input
-              v-model="formData.paymentType"
-              name="salary-type"
-              type="radio"
-              value="contract"
-            >
-            <label for="contract">Contract</label>
+            <label class="section-label">Compensation Information</label><br>
+            <div class="compensation-type-selection">
+              <p>Select compensation type:</p>
+              <input
+                v-model="formData.paymentType"
+                name="salary-type"
+                type="radio"
+                value="hourly"
+              >
+              <label for="hourly">Hourly</label>
+              <input
+                v-model="formData.paymentType"
+                name="salary-type"
+                type="radio"
+                value="salary"
+              >
+              <label for="Salary">Salary</label>
+              <input
+                v-model="formData.paymentType"
+                name="salary-type"
+                type="radio"
+                value="contract"
+              >
+              <label for="contract">Contract</label>
+            </div>
             <select
+              v-if="formData.paymentType === 'salary' ||
+                    formData.paymentType === 'contract'"
               class="form-control"
               v-model="formData.payPeriod"
             >
@@ -62,18 +67,35 @@
               <option value="Semi-Annually">Semi-Annually</option>
               <option value="Annually">Annually</option>
             </select>
-            <div class="form-error" v-if="validations.payPeriod">Pay period is required</div>
+            <div
+              v-if="(formData.paymentType === 'salary' ||
+                     formData.paymentType === 'contract') &&
+                     validations.payPeriod"
+              class="form-error"
+            >
+              Pay period is required
+            </div>
             <date-picker
+              v-if="formData.paymentType === 'salary' ||
+                     formData.paymentType === 'contract'"
               v-model="formData.payDate"
               class="date-picker"
               placeholder="Select next pay date"
             />
-            <div class="form-error" v-if="validations.payDate">Pay date is required</div>
+            <div
+              v-if="(formData.paymentType === 'salary' ||
+                     formData.paymentType === 'contract') &&
+                     validations.payDate"
+              class="form-error"
+            >
+              Pay date is required
+            </div>
             <input
+              v-if="formData.paymentType"
               class="form-control"
               v-model="formData.pay"
               type="number"
-              placeholder="Pay/Pay Rate"
+              :placeholder="formData.paymentType === 'hourly' ? 'Pay Rate' : 'Pay'"
             >
             <div class="form-error" v-if="validations.pay">Pay/Pay rate is required</div>
           </div>
@@ -585,7 +607,7 @@ export default {
       formData: {
         company: '',
         jobTitle: '',
-        paymentType: 'salary',
+        paymentType: '',
         payPeriod: '',
         payDate: null,
         pay: '',
@@ -657,6 +679,10 @@ export default {
 
   .section-label {
     font-size: 20px;
+  }
+
+  .compensation-type-selection {
+    margin-bottom: 15px;
   }
 
   .icon-button {
