@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
-const cron = require('node-cron')
 
 const User = require('../../models/User');
 const Job = require('../../models/Job');
@@ -22,12 +21,6 @@ router.post(
       .isEmpty(),
     check('pay', 'Pay/Pay Rate is required')
       .not()
-      .isEmpty(),
-    check('payPeriod', 'Pay Period is required')
-      .not()
-      .isEmpty(),
-    check('payDate', 'Pay Date is required')
-      .not()
       .isEmpty()
   ],
   async (req, res) => {
@@ -38,7 +31,7 @@ router.post(
 
     try {
       // Get the user
-      const user = await User.findById(req.user.id).select('-password');
+      await User.findById(req.user.id).select('-password');
 
       const {
         company,
@@ -91,19 +84,6 @@ router.post(
 
       // save
       const job = await newJob.save();
-
-      if (paymentType !== 'hourly') {
-        console.log('Payment type: ', paymentType)
-        // schedule single job for date
-        let job = cron.schedule('*/5 * * * * *', () => {
-          console.log('This is just a test')
-        })
-
-        job.start()
-
-        setTimeout(() => {job.destroy()}, 31000)
-        // if salary, schedule recurring job based on pay period
-      }
 
       res.json(job);
     } catch (error) {

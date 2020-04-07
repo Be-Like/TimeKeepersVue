@@ -10,14 +10,27 @@
       </div>
     </div>
     <!-- Content: Job List -->
+    <div v-for="(job, index) in getJobsArray" :key="index">
+      <p class="job-list-name">{{job.company}}</p>
+      <span class="horizontal-line" />
+    </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions, mapGetters } from 'vuex'
 export default {
+  mounted() {
+    this.getJobs()
+  },
+
+  computed: {
+    ...mapGetters(['getJobsArray'])
+  },
+
   methods: {
-    ...mapMutations(['setShowJobModal'])
+    ...mapMutations(['setShowJobModal']),
+    ...mapActions(['getJobs'])
   }
 }
 </script>
@@ -40,5 +53,18 @@ export default {
         }
       }
     }
+  }
+
+  .job-list-name {
+    cursor: pointer;
+    padding: 0 15px;
+    width: 100%;
+  }
+
+  .horizontal-line {
+    border-top: 1px solid #ccc;
+    margin-bottom: 1px;
+    display: block;
+    width: 100%;
   }
 </style>

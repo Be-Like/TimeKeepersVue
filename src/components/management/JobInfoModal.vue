@@ -32,6 +32,7 @@
               <p>Select compensation type:</p>
               <input
                 v-model="formData.paymentType"
+                id="hourly"
                 name="salary-type"
                 type="radio"
                 value="hourly"
@@ -39,13 +40,15 @@
               <label for="hourly">Hourly</label>
               <input
                 v-model="formData.paymentType"
+                id="salary"
                 name="salary-type"
                 type="radio"
                 value="salary"
               >
-              <label for="Salary">Salary</label>
+              <label for="salary">Salary</label>
               <input
                 v-model="formData.paymentType"
+                id="contract"
                 name="salary-type"
                 type="radio"
                 value="contract"
@@ -53,8 +56,7 @@
               <label for="contract">Contract</label>
             </div>
             <select
-              v-if="formData.paymentType === 'salary' ||
-                    formData.paymentType === 'contract'"
+              v-if="formData.paymentType === 'salary'"
               class="form-control"
               v-model="formData.payPeriod"
             >
@@ -68,24 +70,19 @@
               <option value="Annually">Annually</option>
             </select>
             <div
-              v-if="(formData.paymentType === 'salary' ||
-                     formData.paymentType === 'contract') &&
-                     validations.payPeriod"
+              v-if="formData.paymentType === 'salary' && validations.payPeriod"
               class="form-error"
             >
               Pay period is required
             </div>
             <date-picker
-              v-if="formData.paymentType === 'salary' ||
-                     formData.paymentType === 'contract'"
+              v-if="formData.paymentType === 'salary'"
               v-model="formData.payDate"
               class="date-picker"
               placeholder="Select next pay date"
             />
             <div
-              v-if="(formData.paymentType === 'salary' ||
-                     formData.paymentType === 'contract') &&
-                     validations.payDate"
+              v-if="formData.paymentType === 'salary' && validations.payDate"
               class="form-error"
             >
               Pay date is required
@@ -640,7 +637,6 @@ export default {
   methods: {
     ...mapMutations(['setShowJobModal']),
     async saveJob() {
-      console.log('Form Data: ', this.formData)
       this.validateSubmission()
       if (!this.isValid) {
         return
@@ -649,6 +645,8 @@ export default {
 
       if (res.errors) {
         console.log('Error creating job:', res.errors)
+      } else {
+        this.setShowJobModal(false)
       }
     },
     validateSubmission() {

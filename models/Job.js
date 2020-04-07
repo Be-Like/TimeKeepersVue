@@ -6,6 +6,10 @@ const JobSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  active: {
+    type: Boolean,
+    required: true
+  },
   company: {
     type: String,
     required: true
@@ -20,7 +24,9 @@ const JobSchema = new Schema({
   },
   payPeriod: {
     type: String,
-    required: true
+  },
+  payDate: {
+    type: Date,
   },
   street: {
     type: String
