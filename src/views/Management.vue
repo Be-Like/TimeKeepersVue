@@ -5,7 +5,7 @@
         <JobList />
       </div>
       <div class="col-9 job-info">
-        <h2>This is the Management page</h2>
+        <JobInfo />
       </div>
     </div>
     <JobInfoModal v-if="management.showJobModal" />
@@ -15,12 +15,14 @@
 <script>
 import JobList from '../components/management/JobList'
 import JobInfoModal from '../components/management/JobInfoModal'
+import JobInfo from '../components/management/JobInfo'
 import { mapState } from 'vuex'
 
 export default {
   components: {
     JobList,
-    JobInfoModal
+    JobInfoModal,
+    JobInfo
   },
 
   computed: {
@@ -32,6 +34,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .management {
+    overflow: hidden;
+  }
+
   .job-list {
     height: calc(100vh - 64px);
   }

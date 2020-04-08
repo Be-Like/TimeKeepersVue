@@ -15,3 +15,13 @@ export const addJob = async FormData => {
     console.log(errors)
   }
 }
+
+export const getJobs = async () => {
+  try {
+    const res = await axios.get('/api/jobs')
+    return res.data
+  } catch (error) {
+    const errors = error.response
+    console.log(errors)
+  }
+}

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="job-list-container">
     <!-- Header with a button to add a new job -->
     <div class="row job-list-header">
       <div class="col-9">
@@ -10,9 +10,16 @@
       </div>
     </div>
     <!-- Content: Job List -->
-    <div v-for="(job, index) in getJobsArray" :key="index">
-      <p class="job-list-name">{{job.company}}</p>
-      <span class="horizontal-line" />
+    <div class="list-container">
+      <div
+        class="index-container"
+        v-for="(job, index) in getJobsArray"
+        :key="index"
+        @click="setSelectedJob(job)"
+      >
+        <p class="job-list-name">{{job.company}}</p>
+        <span class="horizontal-line" />
+      </div>
     </div>
   </div>
 </template>
@@ -29,13 +36,17 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setShowJobModal']),
+    ...mapMutations(['setShowJobModal', 'setSelectedJob']),
     ...mapActions(['getJobs'])
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  .job-list-container {
+    border-right: 1px solid #ccc;
+  }
+
   .job-list-header {
     align-items: center;
     // background-color: #fff;
@@ -55,10 +66,19 @@ export default {
     }
   }
 
+  .list-container {
+    height: calc(100vh - 143.44px);
+    overflow: auto;
+  }
+
+  .index-container {
+    display: grid;
+  }
+
   .job-list-name {
     cursor: pointer;
     padding: 0 15px;
-    width: 100%;
+    width: calc(100% - 30px);
   }
 
   .horizontal-line {

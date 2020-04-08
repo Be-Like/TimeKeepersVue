@@ -613,7 +613,7 @@ export default {
         state: '',
         country: '',
         zipcode: '',
-        phone: '',
+        phoneNumber: '',
         email: '',
         website: '',
         federalIncomeTax: null,
@@ -635,7 +635,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setShowJobModal']),
+    ...mapMutations(['setShowJobModal', 'addJobToArray']),
     async saveJob() {
       this.validateSubmission()
       if (!this.isValid) {
@@ -646,6 +646,7 @@ export default {
       if (res.errors) {
         console.log('Error creating job:', res.errors)
       } else {
+        this.addJobToArray(res)
         this.setShowJobModal(false)
       }
     },
