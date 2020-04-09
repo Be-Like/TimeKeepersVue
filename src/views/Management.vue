@@ -43,5 +43,6 @@ export default {
   }
 
   .job-info {
+    height: calc(100vh - 64px);
   }
 </style>
