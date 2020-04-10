@@ -597,9 +597,6 @@
 import DatePicker from 'vue2-datepicker'
 import 'vue2-datepicker/index.css'
 import { formatDate } from '../../miscellaneous/format-dates'
-// import { format } from 'date-fns'
-
-// import { addJob } from '../../REST/job'
 import { mapMutations, mapActions } from 'vuex'
 
 export default {

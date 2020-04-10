@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { addJob, editJob, getJobs, deleteJob } from '../REST/job'
 
 const state = {
@@ -54,7 +53,6 @@ const actions = {
     if (res.errors) {
       alert('There were errors editing the job. Please try again')
     } else {
-      console.log('Response ', res)
       commit('editJobInArray', res)
       commit('setShowEditJobModal', false)
     }
