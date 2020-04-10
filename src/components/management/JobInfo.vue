@@ -23,7 +23,7 @@
       </p>
       <div class="compensation-info">
         <p><b>Payment Type:</b> {{ job.paymentType }}</p>
-        <p><b>Pay Date:</b> {{ job.payDate }}</p>
+        <p><b>Pay Date:</b> {{ formattedDate }}</p>
         <p><b>Pay:</b> {{ job.pay }}</p>
         <p><b>Pay Period:</b> {{ job.payPeriod }}</p>
       </div>
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { formatDate } from '../../miscellaneous/format-dates'
 import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   computed: {
@@ -61,6 +62,9 @@ export default {
     address() {
       return this.job.street + ' ' + this.job.city + ' ' +
         this.job.state + ', ' + this.job.zipcode
+    },
+    formattedDate() {
+      return this.job.payDate ? formatDate(this.job.payDate) : null
     }
   },
 

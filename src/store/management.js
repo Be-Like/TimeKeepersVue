@@ -10,6 +10,7 @@ const state = {
 const mutations = {
   addJobToArray(state, job) {
     state.jobsArray.push(job)
+    state.selectedJob = job
   },
   editJobInArray(state, job) {
     state.selectedJob = job

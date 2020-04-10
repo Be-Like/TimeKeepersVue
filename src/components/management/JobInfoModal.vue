@@ -88,7 +88,7 @@
               placeholder="Select next pay date"
             />
             <p v-else-if="formData.paymentType === 'salary' && job">
-              <b>Pay Date:</b> {{ getFormattedDate(job.payDate) }}
+              <b>Pay Date:</b> {{ formattedDate }}
             </p>
             <div
               v-if="formData.paymentType === 'salary' && validations.payDate"
@@ -650,6 +650,12 @@ export default {
     }
   },
 
+  computed: {
+    formattedDate() {
+      return formatDate(this.job.payDate)
+    }
+  },
+
   mounted() {
     if (this.job) {
       this.formData._id = this.job._id
@@ -709,9 +715,6 @@ export default {
       ) {
         this.isValid = true
       }
-    },
-    getFormattedDate(payDate) {
-      return formatDate(payDate)
     }
   }
 }
