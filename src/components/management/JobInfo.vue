@@ -24,24 +24,11 @@
       </div>
       <div class="taxes-info-container">
         <p class="section-label">Taxes and Withholdings</p>
-        <p>Federal Income Tax: {{ job.federalIncomeTax }}</p>
-        <p>State Income Tax: {{ job.stateIncomeTax }}</p>
-        <p>Social Security: {{ job.socialSecurity }}</p>
-        <p>Medicare: {{ job.medicare }}</p>
-        <p>Other Withholdings: {{ job.otherWithholdings }}</p>
-      </div>
-
-      <div class="row">
-        <div class="col-6">
-          <p v-for="(i, index) in 5
-          " :key="index">fff</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-
-          <p v-for="(i, index) in 25" :key="index">test</p>
-        </div>
+        <p><b>Federal Income Tax:</b> {{ job.federalIncomeTax }}</p>
+        <p><b>State Income Tax:</b> {{ job.stateIncomeTax }}</p>
+        <p><b>Social Security:</b> {{ job.socialSecurity }}</p>
+        <p><b>Medicare:</b> {{ job.medicare }}</p>
+        <p><b>Other Withholdings:</b> {{ job.otherWithholdings }}</p>
       </div>
     </div>
   </div>
@@ -85,10 +72,17 @@ export default {
   }
 
   .job-info-body {
+    // display: ;
     height: calc(100vh - 143.44px);
     margin-right: -30px;
     overflow: auto;
     padding-left: 15px;
+  }
+
+  .section-label {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 0;
   }
 
   .compensation-info {
@@ -106,7 +100,8 @@ export default {
   }
 
   .company-info-container {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     width: 50%;
 
     @media(max-width: 600px) {
@@ -115,7 +110,8 @@ export default {
   }
 
   .taxes-info-container {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     width: 50%;
 
     @media(max-width: 600px) {
