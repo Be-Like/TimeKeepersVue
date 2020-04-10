@@ -1,7 +1,21 @@
 <template>
-  <div class="job-info-container">
-    <div class="job-info-header">
-      <h3>{{ job.company }} <small>({{ job.jobTitle }})</small></h3>
+  <div class="job-info-container" v-if="job">
+    <div class="job-info-header row">
+      <h3 class="col-10">{{ job.company }} <small>({{ job.jobTitle }})</small></h3>
+      <div class="col-2 icons">
+        <i
+          class="material-icons edit-icon"
+          @click="editJob"
+        >
+          edit
+        </i>
+        <i
+          class="material-icons delete-icon"
+          @click="deleteAlert()"
+        >
+          delete_forever
+        </i>
+      </div>
     </div>
     <div class="job-info-body">
       <p class="section-label">
@@ -35,7 +49,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapState({
@@ -45,6 +59,21 @@ export default {
     address() {
       return this.job.street + ' ' + this.job.city + ' ' +
         this.job.state + ', ' + this.job.zipcode
+    }
+  },
+
+  methods: {
+    ...mapActions(['deleteJob']),
+    editJob() {
+      console.log('Edit job', this.job)
+    },
+    deleteAlert() {
+      let confirm = window.confirm(
+        `Are you sure you want to delete ${this.job.company}` +
+        ` ${this.job.jobTitle}?\n${this.job.company} ${this.job.jobTitle} ` +
+        'will be permanently deleted.'
+      )
+      if (confirm) { this.deleteJob(this.job._id) }
     }
   }
 }
@@ -67,6 +96,28 @@ export default {
       small {
         color: #484848;
         letter-spacing: 0;
+      }
+    }
+
+    .icons {
+      text-align: right;
+    }
+
+    .edit-icon {
+      cursor: pointer;
+      margin-right: 10px;
+
+      &:hover {
+        color: #42b983;
+      }
+    }
+
+    .delete-icon {
+      cursor: pointer;
+      margin-left: 10px;
+
+      &:hover {
+        color: #ff0800;
       }
     }
   }

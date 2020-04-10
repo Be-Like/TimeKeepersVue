@@ -25,3 +25,13 @@ export const getJobs = async () => {
     console.log(errors)
   }
 }
+
+export const deleteJob = async jobId => {
+  try {
+    const res = await axios.delete(`/api/jobs/${jobId}`)
+    return res.data
+  } catch (error) {
+    const errors = error.response
+    console.log(errors)
+  }
+}
