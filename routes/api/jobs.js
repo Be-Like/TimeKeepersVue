@@ -125,6 +125,7 @@ router.put('/:job_id', auth, [], async (req, res) => {
     const {
       company,
       jobTitle,
+      paymentType,
       pay,
       payPeriod,
       street,
@@ -145,6 +146,7 @@ router.put('/:job_id', auth, [], async (req, res) => {
 
     job.company = company;
     job.jobTitle = jobTitle;
+    job.paymentType = paymentType;
     job.pay = pay;
     job.payPeriod = payPeriod;
     job.street = street;

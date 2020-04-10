@@ -1,15 +1,21 @@
 /* eslint-disable no-unused-vars */
-import { getJobs, deleteJob } from '../REST/job'
+import { addJob, editJob, getJobs, deleteJob } from '../REST/job'
 
 const state = {
   jobsArray: [],
-  showJobModal: false,
+  showAddJobModal: false,
+  showEditJobModal: false,
   selectedJob: null
 }
 
 const mutations = {
   addJobToArray(state, job) {
     state.jobsArray.push(job)
+  },
+  editJobInArray(state, job) {
+    state.selectedJob = job
+    const index = state.jobsArray.map(x => {return x._id}).indexOf(job._id)
+    state.jobsArray.splice(index, 1, job)
   },
   setJobsArray(state, jobsArray) {
     state.jobsArray = jobsArray
@@ -21,8 +27,11 @@ const mutations = {
     }
     state.jobsArray.splice(index, 1)
   },
-  setShowJobModal(state, showJobModal) {
-    state.showJobModal = showJobModal
+  setShowAddJobModal(state, showAddJobModal) {
+    state.showAddJobModal = showAddJobModal
+  },
+  setShowEditJobModal(state, showEditJobModal) {
+    state.showEditJobModal = showEditJobModal
   },
   setSelectedJob(state, selectedJob) {
     console.log('Selected Job: ', selectedJob)
@@ -31,6 +40,25 @@ const mutations = {
 }
 
 const actions = {
+  async addJob({ commit }, formData) {
+    const res = await addJob(formData)
+    if (res.errors) {
+      console.log('Error creating job:', res.errors)
+    } else {
+      commit('addJobToArray', res)
+      commit('setShowAddJobModal', false)
+    }
+  },
+  async editJob({ commit }, job) {
+    const res = await editJob(job._id, job)
+    if (res.errors) {
+      alert('There were errors editing the job. Please try again')
+    } else {
+      console.log('Response ', res)
+      commit('editJobInArray', res)
+      commit('setShowEditJobModal', false)
+    }
+  },
   async getJobs({ commit }) {
     const res = await getJobs()
     console.log(res) // TODO: remove when complete

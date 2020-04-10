@@ -18,6 +18,10 @@ const JobSchema = new Schema({
     type: String,
     required: true
   },
+  paymentType: {
+    type: String,
+    required: true
+  },
   pay: {
     type: Number,
     required: true

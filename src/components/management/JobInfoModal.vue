@@ -5,7 +5,7 @@
       <form class="modal-dialog" @submit.prevent="saveJob">
         <!-- Title -->
         <div class="modal-title">
-          <p>Add Job</p>
+          <p>{{ job ? 'Edit' : 'Add'}} Job</p>
         </div>
         <!-- Body -->
         <div class="modal-body">
@@ -36,6 +36,7 @@
                 name="salary-type"
                 type="radio"
                 value="hourly"
+                :disabled="job ? true : false"
               >
               <label for="hourly">Hourly</label>
               <input
@@ -44,6 +45,7 @@
                 name="salary-type"
                 type="radio"
                 value="salary"
+                :disabled="job ? true :false"
               >
               <label for="salary">Salary</label>
               <input
@@ -52,11 +54,12 @@
                 name="salary-type"
                 type="radio"
                 value="contract"
+                :disabled="job ? true :false"
               >
               <label for="contract">Contract</label>
             </div>
             <select
-              v-if="formData.paymentType === 'salary'"
+              v-if="formData.paymentType === 'salary' && !job"
               class="form-control"
               v-model="formData.payPeriod"
             >
@@ -69,6 +72,9 @@
               <option value="Semi-Annually">Semi-Annually</option>
               <option value="Annually">Annually</option>
             </select>
+            <p v-else-if="formData.paymentType === 'salary' && job">
+              <b>Pay Period:</b> {{ job.payPeriod }}
+            </p>
             <div
               v-if="formData.paymentType === 'salary' && validations.payPeriod"
               class="form-error"
@@ -76,11 +82,14 @@
               Pay period is required
             </div>
             <date-picker
-              v-if="formData.paymentType === 'salary'"
+              v-if="formData.paymentType === 'salary' && !job"
               v-model="formData.payDate"
               class="date-picker"
               placeholder="Select next pay date"
             />
+            <p v-else-if="formData.paymentType === 'salary' && job">
+              <b>Pay Date:</b> {{ getFormattedDate(job.payDate) }}
+            </p>
             <div
               v-if="formData.paymentType === 'salary' && validations.payDate"
               class="form-error"
@@ -573,7 +582,7 @@
           <button
             type="button"
             class="btn btn-outline-primary"
-            @click="setShowJobModal(false)"
+            @click="closeModal"
           >
             Cancel
           </button>
@@ -587,11 +596,20 @@
 <script>
 import DatePicker from 'vue2-datepicker'
 import 'vue2-datepicker/index.css'
+import { formatDate } from '../../miscellaneous/format-dates'
+// import { format } from 'date-fns'
 
-import { addJob } from '../../REST/job'
-import { mapMutations } from 'vuex'
+// import { addJob } from '../../REST/job'
+import { mapMutations, mapActions } from 'vuex'
 
 export default {
+  props: {
+    job: {
+      type: Object,
+      default: null
+    }
+  },
+
   components: {
     DatePicker
   },
@@ -602,6 +620,7 @@ export default {
       showContact: false,
       showTaxes: false,
       formData: {
+        _id: null,
         company: '',
         jobTitle: '',
         paymentType: '',
@@ -634,21 +653,48 @@ export default {
     }
   },
 
+  mounted() {
+    if (this.job) {
+      this.formData._id = this.job._id
+      this.formData.company = this.job.company
+      this.formData.jobTitle = this.job.jobTitle
+      this.formData.paymentType = this.job.paymentType
+      this.formData.payPeriod = this.job.payPeriod
+      this.formData.payDate = this.job.payDate
+      this.formData.pay = this.job.pay
+      this.formData.street = this.job.street
+      this.formData.city = this.job.city
+      this.formData.state = this.job.state
+      this.formData.country = this.job.country
+      this.formData.zipcode = this.job.zipcode
+      this.formData.phoneNumber = this.job.phoneNumber
+      this.formData.email = this.job.email
+      this.formData.website = this.job.website
+      this.formData.federalIncomeTax = this.job.federalIncomeTax
+      this.formData.stateIncomeTax = this.job.stateIncomeTax
+      this.formData.socialSecurity = this.job.socialSecurity
+      this.formData.medicare = this.job.medicare
+      this.formData.retirement = this.job.retirement
+      this.formData.otherWithholdings = this.job.otherWithholdings
+    }
+  },
+
   methods: {
-    ...mapMutations(['setShowJobModal', 'addJobToArray']),
+    ...mapActions(['addJob', 'editJob']),
+    ...mapMutations([
+      'setShowAddJobModal',
+      'setShowEditJobModal'
+    ]),
+    closeModal() {
+      this.job ? this.setShowEditJobModal(false) : this.setShowAddJobModal(false)
+    },
     async saveJob() {
       this.validateSubmission()
       if (!this.isValid) {
         return
       }
-      const res = await addJob(this.formData)
 
-      if (res.errors) {
-        console.log('Error creating job:', res.errors)
-      } else {
-        this.addJobToArray(res)
-        this.setShowJobModal(false)
-      }
+      this.job ? this.editJob(this.formData) : this.addJob(this.formData)
     },
     validateSubmission() {
       this.validations.company = this.formData.company ? false : true
@@ -666,6 +712,9 @@ export default {
       ) {
         this.isValid = true
       }
+    },
+    getFormattedDate(payDate) {
+      return formatDate(payDate)
     }
   }
 }

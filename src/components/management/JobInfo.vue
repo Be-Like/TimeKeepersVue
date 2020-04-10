@@ -5,7 +5,7 @@
       <div class="col-2 icons">
         <i
           class="material-icons edit-icon"
-          @click="editJob"
+          @click="setShowEditJobModal(true)"
         >
           edit
         </i>
@@ -22,6 +22,8 @@
         Compensation Information
       </p>
       <div class="compensation-info">
+        <p><b>Payment Type:</b> {{ job.paymentType }}</p>
+        <p><b>Pay Date:</b> {{ job.payDate }}</p>
         <p><b>Pay:</b> {{ job.pay }}</p>
         <p><b>Pay Period:</b> {{ job.payPeriod }}</p>
       </div>
@@ -49,7 +51,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   computed: {
     ...mapState({
@@ -63,6 +65,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setShowEditJobModal']),
     ...mapActions(['deleteJob']),
     editJob() {
       console.log('Edit job', this.job)

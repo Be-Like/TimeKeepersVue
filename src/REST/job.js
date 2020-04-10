@@ -16,6 +16,16 @@ export const addJob = async FormData => {
   }
 }
 
+export const editJob = async (jobId, FormData) => {
+  try {
+    const res = await axios.put(`/api/jobs/${jobId}`, FormData, config)
+    return res.data
+  } catch (error) {
+    const errors = error.response
+    console.log(errors)
+  }
+}
+
 export const getJobs = async () => {
   try {
     const res = await axios.get('/api/jobs')

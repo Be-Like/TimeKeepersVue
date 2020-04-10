@@ -8,7 +8,11 @@
         <JobInfo />
       </div>
     </div>
-    <JobInfoModal v-if="management.showJobModal" />
+    <JobInfoModal v-if="management.showAddJobModal" />
+    <JobInfoModal
+      v-if="management.showEditJobModal"
+      :job="management.selectedJob"
+    />
   </div>
 </template>
 
