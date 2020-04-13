@@ -6,9 +6,11 @@ const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 const Job = require('../../models/Job');
 
-// @route POST api/jobs
-// @desc Create a job
-// @access Private
+/**
+ * @route POST api/jobs
+ * @description Create a job
+ * @access Private
+ */
 router.post(
   '/',
   auth,
@@ -93,9 +95,11 @@ router.post(
   }
 );
 
-// @route GET api/jobs
-// @desc Get all jobs
-// @access Private
+/**
+ * @route GET api/jobs
+ * @description GET api/jobs
+ * @access Private
+ */
 router.get('/', auth, async (req, res) => {
   try {
     // console.log(req.user.id);
@@ -107,9 +111,11 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route PUT api/jobs/:job_id
-// desc Edit selected job
-// @access Private
+/**
+ * @route PUT api/jobs/:job_id
+ * @description Edit selected job
+ * @access Private
+ */
 router.put('/:job_id', auth, [], async (req, res) => {
   try {
     const job = await Job.findById(req.params.job_id);
@@ -175,9 +181,11 @@ router.put('/:job_id', auth, [], async (req, res) => {
   }
 });
 
-// @route DELETE api/jobs/:job_id
-// @desc Delete selected job
-// @access Private
+/**
+ * @route DELETE api/jobs/:job_id
+ * @description Delete selected job
+ * @access Private
+ */
 router.delete('/:job_id', auth, async (req, res) => {
   try {
     const job = await Job.findById(req.params.job_id);
