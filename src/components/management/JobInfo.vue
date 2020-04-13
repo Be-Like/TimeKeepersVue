@@ -71,9 +71,6 @@ export default {
   methods: {
     ...mapMutations(['setShowEditJobModal']),
     ...mapActions(['deleteJob']),
-    editJob() {
-      console.log('Edit job', this.job)
-    },
     deleteAlert() {
       let confirm = window.confirm(
         `Are you sure you want to delete ${this.job.company}` +

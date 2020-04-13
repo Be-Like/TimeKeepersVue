@@ -60,7 +60,6 @@ const actions = {
   },
   async getJobs({ commit }) {
     const res = await getJobs()
-    console.log(res) // TODO: remove when complete
     commit('setJobsArray', res)
   },
   async deleteJob({ commit }, jobId) {
