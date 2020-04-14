@@ -18,7 +18,7 @@ router.get(
   async (req, res) => {
     try {
       let jobEntries = await JobEntry.find({ user: req.user.id })
-      res.status(400).send(jobEntries)
+      res.send(jobEntries)
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error')

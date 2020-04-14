@@ -112,6 +112,30 @@ router.get('/', auth, async (req, res) => {
 });
 
 /**
+ * @route GET api/jobs/:job_id
+ * @description GET job by job id
+ * @access Private
+ */
+router.get('/:job_id', auth, async(req, res) => {
+  try {
+    const job = await Job.findById(req.params.job_id)
+
+    if (!job) {
+      return res.status(404).json({ msg: 'Job not found' })
+    }
+
+    if (job.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized'})
+    }
+
+    res.json(job)
+  } catch (error) {
+    console.error(error.message)
+    res.status(500).send('Server error')
+  }
+})
+
+/**
  * @route PUT api/jobs/:job_id
  * @description Edit selected job
  * @access Private

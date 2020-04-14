@@ -70,3 +70,15 @@
 .btn:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
+
+.actions {
+  text-align: right;
+
+  i {
+    cursor: pointer;
+
+    &:hover {
+      color: #42b983;
+    }
+  }
+}
