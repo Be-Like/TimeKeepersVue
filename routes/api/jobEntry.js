@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 
 // const User = require('../../models/User');
 // const Job = require('../../models/Job');
-// const JobEntry = require('../../models/JobEntry');
+const JobEntry = require('../../models/JobEntry');
 
 /**
  * @route GET api/job-entry
@@ -13,6 +13,32 @@ const auth = require('../../middleware/auth');
  * @access Private
  */
 router.get(
+  '/',
+  auth,
+  async (req, res) => {
+    try {
+      let jobEntries = await JobEntry.find({ user: req.user.id })
+      res.status(400).send(jobEntries)
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send('Server error')
+    }
+  }
+)
+
+/**
+ * @route GET api/job-entry/:job_id
+ * @description Get all job entries for a selected job
+ * @access Private
+ */
+// router.get()
+
+/**
+ * @route POST api/job-entry
+ * @description Create a job entry
+ * @access Private
+ */
+router.post(
   '/',
   auth,
   [],
@@ -23,21 +49,35 @@ router.get(
     }
 
     try {
-      console.log('Made it to try')
-      res.status(400).send('Getting job entries successful')
+      const {
+        job,
+        startTime,
+        endTime,
+        breakTime,
+        hoursWorked,
+        pay,
+        notes
+      } = req.body
+
+      const newEntry = new JobEntry({
+        user: req.user.id,
+        job,
+        startTime,
+        endTime,
+        breakTime,
+        hoursWorked,
+        pay,
+        notes
+      })
+
+      const entry = await newEntry.save();
+      res.json(entry)
     } catch (error) {
       console.error(error.message);
-      res.status(500).send('Server error')
+      res.status(500).send('Server error');
     }
   }
 )
-
-/**
- * @route POST api/job-entry
- * @description Create a job entry
- * @access Private
- */
-// router.post()
 
 /**
  * @route PUT api/job-entry/:entry_id

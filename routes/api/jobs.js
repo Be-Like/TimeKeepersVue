@@ -97,7 +97,7 @@ router.post(
 
 /**
  * @route GET api/jobs
- * @description GET api/jobs
+ * @description GET all jobs
  * @access Private
  */
 router.get('/', auth, async (req, res) => {
