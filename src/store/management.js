@@ -77,6 +77,13 @@ const actions = {
 const getters = {
   getJobsArray: state => {
     return state.jobsArray
+  },
+  getCompanyAndJob: state => {
+    let jobs = []
+    state.jobsArray.forEach(job => {
+      jobs.push({ id: job._id, company: job.company, jobTitle: job.jobTitle })
+    })
+    return jobs
   }
 }
 
