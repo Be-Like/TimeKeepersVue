@@ -53,7 +53,7 @@ router.post(
         job,
         startTime,
         endTime,
-        breakTime,
+        breakTimes,
         hoursWorked,
         pay,
         notes
@@ -64,7 +64,7 @@ router.post(
         job,
         startTime,
         endTime,
-        breakTime,
+        breakTimes,
         hoursWorked,
         pay,
         notes

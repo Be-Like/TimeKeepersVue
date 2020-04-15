@@ -733,11 +733,6 @@ export default {
     cursor: pointer;
   }
 
-  select {
-    height: 49px;
-    width: 100%;
-  }
-
   .date-picker {
     margin-bottom: 15px;
     width: 100%;

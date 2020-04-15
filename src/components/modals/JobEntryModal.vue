@@ -19,11 +19,12 @@
                 <option
                   v-for="(job, index) in getCompanyAndJob"
                   :key="index"
-                  :value="job.id"
+                  :value="job"
                 >
                   {{ job.company}} - {{ job.jobTitle }}
                 </option>
               </select>
+              <div class="form-error" v-if="validations.job">Job is required</div>
             </div>
             <div class="form-group">
               <div class="start-end-time">
@@ -35,6 +36,7 @@
                   :confirm="true"
                   placeholder="Select start time"
                 />
+                <div class="form-error" v-if="validations.startTime">Start time is required</div>
               </div>
               <div class="start-end-time">
                 <label>End Time</label>
@@ -45,6 +47,7 @@
                   :confirm="true"
                   placeholder="Select start time"
                 />
+                <div class="form-error" v-if="validations.endTime">End time is required</div>
               </div>
             </div>
             <div class="form-group">
@@ -85,6 +88,7 @@
               <label>Notes</label>
               <div class="entry-notes">
                 <textarea
+                  class="form-control"
                   v-model="notes"
                   rows="3"
                   placeholder="Job entry notes"
@@ -131,7 +135,13 @@ export default {
       startTime: null,
       endTime: null,
       breakTimes: [],
-      notes: ''
+      notes: '',
+      isValid: false,
+      validations: {
+        job: null,
+        startTime: null,
+        endTime: null
+      }
     }
   },
 
@@ -154,6 +164,7 @@ export default {
       'setShowAddEntryModal',
       'setShowEditEntryModal'
     ]),
+    ...mapActions('jobEntries', ['addJobEntry']),
     ...mapActions('management', ['getJobs']),
     addBreak() {
       this.breakTimes.push({
@@ -165,15 +176,39 @@ export default {
       this.breakTimes.splice(index, 1)
     },
     closeModal() {
-      this.breakTimes.forEach((time, i) => {
-        console.log(`Break time ${i}: ${time.startTime} - ${time.endTime}`)
-      })
-      // this.jobEntry ?
-      //   this.setShowEditEntryModal(false) :
-      //   this.setShowAddEntryModal(false)
+      this.jobEntry ?
+        this.setShowEditEntryModal(false) :
+        this.setShowAddEntryModal(false)
     },
     saveEntry() {
-      console.log('Will save modal')
+      this.validateSubmission()
+      if (!this.isValid) {
+        return
+      }
+
+      const formData = {
+        job: this.selectedJob.id,
+        pay: this.selectedJob.pay,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        breakTimes: this.breakTimes,
+        notes: this.notes
+      }
+
+      this.jobEntry ? console.log(`Will edit ${formData.job}`) : this.addJobEntry(formData)
+    },
+    validateSubmission() {
+      this.validations.job = this.selectedJob ? false : true
+      this.validations.startTime = this.startTime ? false : true
+      this.validations.endTime = this.endTime ? false : true
+
+      if (
+        !this.validations.job ||
+        !this.validations.startTime ||
+        !this.validations.endTime
+      ) {
+        this.isValid = true
+      }
     }
   }
 }
@@ -185,7 +220,7 @@ export default {
   }
 
   select {
-    padding: 0 10px;
+    margin: 0 10px;
     width: calc(100% - 20px);
   }
 
@@ -242,11 +277,15 @@ export default {
   }
 
   .entry-notes {
-    margin-top: 10px;
-    padding: 0 10px;
+    margin: 10px 10px;
+    width: calc(100% - 20px);
 
     textarea {
-      width: calc(100% - 5px);
+      resize: vertical;
     }
+  }
+
+  .form-error {
+    margin-top: 0;
   }
 </style>

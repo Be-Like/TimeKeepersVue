@@ -1,4 +1,5 @@
-import { getJobEntries } from '../REST/jobEntries'
+/* eslint-disable no-unused-vars */
+import { getJobEntries, addJobEntry } from '../REST/jobEntries'
 
 const namespaced = true
 
@@ -25,6 +26,11 @@ const actions = {
   async getJobEntries({ commit }) {
     const res = await getJobEntries()
     commit('setJobEntriesArray', res)
+  },
+  async addJobEntry({ commit }, formData) {
+    // Add job entry via REST api
+    const res = await addJobEntry(formData)
+    console.log('Add Entry Response', res)
   }
 }
 

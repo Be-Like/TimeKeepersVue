@@ -81,7 +81,21 @@ const getters = {
   getCompanyAndJob: state => {
     let jobs = []
     state.jobsArray.forEach(job => {
-      jobs.push({ id: job._id, company: job.company, jobTitle: job.jobTitle })
+      if (job.paymentType === 'hourly') {
+        jobs.push({
+          id: job._id,
+          company: job.company,
+          jobTitle: job.jobTitle,
+          pay: job.pay
+        })
+      } else {
+        jobs.push({
+          id: job._id,
+          company: job.company,
+          jobTitle: job.jobTitle,
+          pay: 0
+        })
+      }
     })
     return jobs
   }
