@@ -55,9 +55,9 @@ import { formatDate } from '../../miscellaneous/format-dates'
 import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   computed: {
-    ...mapState({
-      management: state => state.management,
-      job: state => state.management.selectedJob
+    ...mapState('management', {
+      management: state => state,
+      job: state => state.selectedJob
     }),
     address() {
       return this.job.street + ' ' + this.job.city + ' ' +
@@ -69,8 +69,8 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setShowEditJobModal']),
-    ...mapActions(['deleteJob']),
+    ...mapMutations('management', ['setShowEditJobModal']),
+    ...mapActions('mangement', ['deleteJob']),
     deleteAlert() {
       let confirm = window.confirm(
         `Are you sure you want to delete ${this.job.company}` +

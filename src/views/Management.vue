@@ -18,7 +18,7 @@
 
 <script>
 import JobList from '../components/management/JobList'
-import JobInfoModal from '../components/management/JobInfoModal'
+import JobInfoModal from '../components/modals/JobInfoModal'
 import JobInfo from '../components/management/JobInfo'
 import { mapState } from 'vuex'
 
@@ -30,8 +30,8 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      management: state => state.management
+    ...mapState('management', {
+      management: state => state
     })
   }
 }

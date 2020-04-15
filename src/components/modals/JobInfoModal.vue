@@ -683,8 +683,8 @@ export default {
   },
 
   methods: {
-    ...mapActions(['addJob', 'editJob']),
-    ...mapMutations([
+    ...mapActions('management', ['addJob', 'editJob']),
+    ...mapMutations('management', [
       'setShowAddJobModal',
       'setShowEditJobModal'
     ]),

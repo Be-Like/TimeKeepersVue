@@ -6,7 +6,7 @@
         <h3>Job Entries</h3>
       </div>
       <div class="col-3 actions">
-        <i class="material-icons">add</i>
+        <i class="material-icons" @click="setShowAddEntryModal(true)">add</i>
       </div>
     </div>
     <!-- Entries -->
@@ -15,7 +15,7 @@
         class="entry-index"
         v-for="(entry, index) in getJobEntriesArray"
         :key="index"
-        @click="selectJobEntry(entry)"
+        @click="testNamespace()"
       >
         <p class="job-list-name col-10">
           {{ entry.company }} <small>{{ entry.jobTitle }}</small>
@@ -28,18 +28,19 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
   mounted() {
     this.getJobEntries()
   },
 
   computed: {
-    ...mapGetters(['getJobEntriesArray'])
+    ...mapGetters('jobEntries', ['getJobEntriesArray'])
   },
 
   methods: {
-    ...mapActions(['getJobEntries']),
+    ...mapActions('jobEntries', ['getJobEntries']),
+    ...mapMutations('jobEntries', ['setShowAddEntryModal']),
     selectJobEntry(entry) {
       console.log('Entry', entry)
     }

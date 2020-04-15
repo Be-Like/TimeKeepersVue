@@ -1,12 +1,23 @@
 import { getJobEntries } from '../REST/jobEntries'
 
+const namespaced = true
+
 const state = {
-  jobEntriesArray: []
+  jobEntriesArray: [],
+  showAddEntryModal: false,
+  showEditEntryModal: false,
+  selectedJobEntry: null
 }
 
 const mutations = {
   setJobEntriesArray(state, entries) {
     state.jobEntriesArray = entries
+  },
+  setShowAddEntryModal(state, show) {
+    state.showAddEntryModal = show
+  },
+  setShowEditEntryModal(state, show) {
+    state.showEditEntryModal = show
   }
 }
 
@@ -27,5 +38,6 @@ export default {
   state,
   mutations,
   actions,
-  getters
+  getters,
+  namespaced
 }

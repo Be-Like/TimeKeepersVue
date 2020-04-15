@@ -1,5 +1,7 @@
 import { addJob, editJob, getJobs, deleteJob } from '../REST/job'
 
+const namespaced = true
+
 const state = {
   jobsArray: [],
   showAddJobModal: false,
@@ -82,5 +84,6 @@ export default {
   state,
   mutations,
   actions,
-  getters
+  getters,
+  namespaced
 }

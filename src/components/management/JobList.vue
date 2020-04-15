@@ -32,12 +32,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['getJobsArray'])
+    ...mapGetters('management', ['getJobsArray'])
   },
 
   methods: {
-    ...mapMutations(['setShowAddJobModal', 'setSelectedJob']),
-    ...mapActions(['getJobs'])
+    ...mapMutations('management', ['setShowAddJobModal', 'setSelectedJob']),
+    ...mapActions('management', ['getJobs'])
   }
 }
 </script>
