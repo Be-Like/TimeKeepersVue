@@ -33,7 +33,7 @@
                   v-model="startTime"
                   class="date-picker"
                   type="datetime"
-                  :use12h="true"
+                  :show-second="false"
                   :confirm="true"
                   placeholder="Select start time"
                 />
@@ -45,8 +45,8 @@
                   v-model="endTime"
                   class="date-picker"
                   type="datetime"
+                  :show-second="false"
                   :confirm="true"
-                  :use12h="true"
                   placeholder="Select start time"
                 />
                 <div class="form-error" v-if="validations.endTime">End time is required</div>
@@ -67,7 +67,7 @@
                     v-model="time.startTime"
                     class="date-picker"
                     type="datetime"
-                    :use12h="true"
+                    :show-second="false"
                     :confirm="true"
                     placeholder="Select start break time"
                   />
@@ -77,7 +77,7 @@
                     v-model="time.endTime"
                     class="date-picker"
                     type="datetime"
-                    :use12h="true"
+                    :show-second="false"
                     :confirm="true"
                     placeholder="Select end break time"
                   />

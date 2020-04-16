@@ -110,7 +110,7 @@ router.put(
   ],
   async (req, res) => {
     try {
-      const entry = await JobEntry.findById(req.params.job_id)
+      const entry = await JobEntry.findById(req.params.entry_id)
 
       if (!entry) {
         return res.status(404).json({ msg: 'Job entry not found' })
