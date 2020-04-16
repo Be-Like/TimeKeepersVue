@@ -18,7 +18,7 @@ const JobEntrySchema = new Schema({
     type: Date,
     required: true
   },
-  breakTime: {
+  breakTimes: {
     type: Array,
     default: []
   },

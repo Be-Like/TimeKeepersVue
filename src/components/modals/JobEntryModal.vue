@@ -100,7 +100,7 @@
           <div class="modal-actions">
             <button
               type="button"
-              class="btn btn-outline-priary"
+              class="btn btn-outline-primary"
               @click="closeModal"
             >
               Cancel
@@ -189,10 +189,12 @@ export default {
       const formData = {
         job: this.selectedJob.id,
         pay: this.selectedJob.pay,
+        jobTitle: this.selectedJob.jobTitle,
+        company: this.selectedJob.company,
         startTime: this.startTime,
         endTime: this.endTime,
         breakTimes: this.breakTimes,
-        notes: this.notes
+        notes: this.notes.trim()
       }
 
       this.jobEntry ? console.log(`Will edit ${formData.job}`) : this.addJobEntry(formData)
@@ -287,5 +289,9 @@ export default {
 
   .form-error {
     margin-top: 0;
+  }
+
+  button {
+    margin-right: 10px;
   }
 </style>

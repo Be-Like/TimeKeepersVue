@@ -14,6 +14,9 @@ const mutations = {
   setJobEntriesArray(state, entries) {
     state.jobEntriesArray = entries
   },
+  addEntryToArray(state, entry) {
+    state.jobEntriesArray.push(entry)
+  },
   setShowAddEntryModal(state, show) {
     state.showAddEntryModal = show
   },
@@ -28,9 +31,13 @@ const actions = {
     commit('setJobEntriesArray', res)
   },
   async addJobEntry({ commit }, formData) {
-    // Add job entry via REST api
     const res = await addJobEntry(formData)
-    console.log('Add Entry Response', res)
+    if (res.errors) {
+      alert('There was an error connecting with the server. Please try again.')
+      return
+    }
+    commit('addEntryToArray', formData)
+    commit('setShowAddEntryModal', false)
   }
 }
 

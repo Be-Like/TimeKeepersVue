@@ -41,7 +41,17 @@ router.get(
 router.post(
   '/',
   auth,
-  [],
+  [
+    check('job', 'Job is required')
+      .not()
+      .isEmpty(),
+    check('startTime', 'Start time is required')
+      .not()
+      .isEmpty(),
+    check('endTime', 'End time is required')
+      .not()
+      .isEmpty()
+  ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -84,7 +94,61 @@ router.post(
  * @description Edit selected job entry
  * @access Private
  */
-// router.put()
+router.put(
+  '/:entry_id',
+  auth,
+  [
+    check('job', 'Job is required')
+      .not()
+      .isEmpty(),
+    check('startTime', 'Start time is required')
+      .not()
+      .isEmpty(),
+    check('endTime', 'End time is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    try {
+      const entry = await JobEntry.findById(req.params.job_id)
+
+      if (!entry) {
+        return res.status(404).json({ msg: 'Job entry not found' })
+      }
+
+      if (entry.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'User not authorized' })
+      }
+
+      const {
+        job,
+        startTime,
+        endTime,
+        breakTimes,
+        hoursWorked,
+        pay,
+        notes
+      } = req.body
+
+      entry.job = job
+      entry.startTime = startTime
+      entry.endTime = endTime
+      entry.breakTimes = breakTimes
+      entry.hoursWorked = hoursWorked
+      entry.pay = pay
+      entry.notes = notes
+
+      await entry.save()
+
+      res.json(entry)
+    } catch (error) {
+      console.error(error.message)
+      if (error.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'Job entry not found' })
+      }
+    }
+  }
+)
 
 /**
  * @route DELETE api/job-entry/:entry_id

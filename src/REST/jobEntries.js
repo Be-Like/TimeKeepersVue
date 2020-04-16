@@ -35,16 +35,21 @@ export const getJobEntries = async () => {
 }
 
 export const addJobEntry = async FormData => {
-  // TODO: Calculate hours worked (end - start) - (sum(breakTimes))
-  let breakTime = 0
-  FormData.breakTimes.forEach(time => {
-    breakTime += (time.endTime.getTime() - time.startTime.getTime())
-  })
-  let hours =
-    (FormData.endTime.getTime() - FormData.startTime.getTime()) - (breakTime)
-  hours = hours / (1000 * 60 * 60)
-  console.log('Break', hours)
-  // TODO: Calculate pay hours * pay (hourly only)
-  // const res = await axios.post('/api/job-entry', FormData, config)
-  return 'result to be returned'
+  try {
+    let breakTime = 0
+    FormData.breakTimes.forEach(time => {
+      breakTime += (time.endTime.getTime() - time.startTime.getTime())
+    })
+    let hours =
+      (FormData.endTime.getTime() - FormData.startTime.getTime()) - (breakTime)
+
+    FormData.hoursWorked = hours / (1000 * 60 * 60)
+    FormData.pay = FormData.pay * FormData.hoursWorked
+
+    const jobEntry = await axios.post('/api/job-entry', FormData, config)
+    return jobEntry.data
+  } catch (error) {
+    const errors = error.response
+    return { errors: errors }
+  }
 }
