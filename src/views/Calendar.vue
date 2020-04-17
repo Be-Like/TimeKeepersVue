@@ -20,6 +20,13 @@ export default {
     return {
       selectedDate: new Date()
     }
+  },
+
+  mounted() {
+    let el = document.getElementsByClassName('mx-datepicker-body')[0]
+    el.classList.add('custom-calendar-style')
+    el = document.getElementsByClassName('mx-calendar-panel-date')[0]
+    el.classList.add('another-custom-calendar-style')
   }
 }
 </script>
@@ -34,25 +41,25 @@ export default {
   // customize date-picker
   .mx-datepicker-inline {
     width: 100%;
+
   }
 
   .mx-datepicker-main {
     width: 100%;
-  }
+}
 
   .mx-datepicker-content {
     width: 100%;
   }
 
-  .mx-datepicker-body {
-    width: 100%
+  .custom-calendar-style,
+  .another-custom-calendar-style {
+    width: 100%;
+
   }
 
-  .mx-calendar.mx-calendar-panel-date {
-    width: 100%;
-  }
+  // .mx-calendar-panel-date {
+  //   width: inherit;
+  // }
 
-  .mx-calendar-header {
-    width: 100%;
-  }
 </style>
