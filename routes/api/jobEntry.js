@@ -155,6 +155,27 @@ router.put(
  * @description Delete selected job entry
  * @access Private
  */
-// router.delete()
+router.delete('/:entry_id', auth, async (req, res) => {
+  try {
+    const jobEntry = await JobEntry.findById(req.params.entry_id)
+
+    if (!jobEntry) {
+      return res.status(404).json({ msg: 'Entry not found' })
+    }
+
+    if (jobEntry.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' })
+    }
+
+    await jobEntry.remove()
+
+    res.json({ msg: 'Entry removed' })
+  } catch (error) {
+    console.error(error.message)
+    if (error.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Entry not found' })
+    }
+  }
+})
 
 module.exports = router;

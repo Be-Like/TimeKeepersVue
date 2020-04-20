@@ -1,65 +1,71 @@
 <template>
   <div class="calendar">
-    <div class="calendar-section">
-      <date-picker
-        v-model="selectedDate"
-        inline
-      />
+    <div class="row">
+      <div class="left-side">
+        <div class="calendar-view">
+          <Calendar />
+        </div>
+        <div class="calendar-events">
+          <Events />
+        </div>
+      </div>
+      <div class="right-side">
+        <JobEntryInfo />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker'
+import Calendar from '../components/calendar/Calendar'
+import Events from '../components/calendar/Events'
+import JobEntryInfo from '../components/calendar/JobEntryInfo'
+import { mapActions } from 'vuex'
+
 export default {
   components: {
-    DatePicker
+    Calendar,
+    Events,
+    JobEntryInfo
   },
 
-  data() {
-    return {
-      selectedDate: new Date()
-    }
+  created() {
+    this.getJobEntries()
   },
 
-  mounted() {
-    let el = document.getElementsByClassName('mx-datepicker-body')[0]
-    el.classList.add('custom-calendar-style')
-    el = document.getElementsByClassName('mx-calendar-panel-date')[0]
-    el.classList.add('another-custom-calendar-style')
+  methods: {
+    ...mapActions('jobEntries', ['getJobEntries'])
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .calendar-section {
-    height: calc(100vh - 64px);
+  .calendar {
+    height: calc(100vh - 70px);
     overflow: hidden;
+  }
+
+  .row {
+    height: 100%;
+  }
+
+  .left-side {
+    height: 100%;
+    width: 50%;
+
+    .calendar-view {
+      height: 70%;
+      padding-top: 5px;
+    }
+
+    .calendar-events {
+      height: 30%;
+      overflow: auto;
+    }
+  }
+
+  .right-side {
+    height: 100%;
     width: 50%;
   }
-
-  // customize date-picker
-  .mx-datepicker-inline {
-    width: 100%;
-
-  }
-
-  .mx-datepicker-main {
-    width: 100%;
-}
-
-  .mx-datepicker-content {
-    width: 100%;
-  }
-
-  .custom-calendar-style,
-  .another-custom-calendar-style {
-    width: 100%;
-
-  }
-
-  // .mx-calendar-panel-date {
-  //   width: inherit;
-  // }
-
 </style>

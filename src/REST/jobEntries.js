@@ -53,3 +53,13 @@ export const addJobEntry = async FormData => {
     return { errors: errors }
   }
 }
+
+export const deleteJobEntry = async entryId => {
+  try {
+    const res = await axios.delete(`/api/job-entry/${entryId}`)
+    return res.data
+  } catch (error) {
+    const errors = error.response
+    return { errors: errors }
+  }
+}

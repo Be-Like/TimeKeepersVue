@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { getJobEntries, addJobEntry } from '../REST/jobEntries'
+import { getJobEntries, addJobEntry, deleteJobEntry } from '../REST/jobEntries'
 
 const namespaced = true
 
@@ -17,11 +17,21 @@ const mutations = {
   addEntryToArray(state, entry) {
     state.jobEntriesArray.push(entry)
   },
+  removeEntryFromArray(state, entryId) {
+    let index = state.jobEntriesArray.map(x => {return x._id}).indexOf(entryId)
+    if (state.jobEntriesArray[index]._id === entryId) {
+      state.selectedJobEntry = null
+    }
+    state.jobEntriesArray.splice(index, 1)
+  },
   setShowAddEntryModal(state, show) {
     state.showAddEntryModal = show
   },
   setShowEditEntryModal(state, show) {
     state.showEditEntryModal = show
+  },
+  setSelectedJobEntry(state, entry) {
+    state.selectedJobEntry = entry
   }
 }
 
@@ -38,12 +48,44 @@ const actions = {
     }
     commit('addEntryToArray', formData)
     commit('setShowAddEntryModal', false)
+  },
+  async editJobEntry({ commit }, formData) {
+    return
+  },
+  async deleteJobEntry({ commit }, entryId) {
+    const res = await deleteJobEntry(entryId)
+    if (res.errors) {
+      alert('There was an error connecting with the server. Please try again.')
+      return
+    }
+    commit('removeEntryFromArray', entryId)
   }
 }
 
 const getters = {
   getJobEntriesArray: state => {
     return state.jobEntriesArray
+  },
+  getJobEntriesByDate: state => date => {
+    date.setHours(0, 0, 0, 0)
+    date = date.getTime()
+
+    let allEntries = state.jobEntriesArray
+    let entries = []
+
+    allEntries.forEach(entry => {
+      let startTime = new Date(entry.startTime)
+      let endTime = new Date(entry.endTime)
+      startTime.setHours(0, 0, 0, 0)
+      endTime.setHours(0, 0, 0, 0)
+      startTime = startTime.getTime()
+      endTime = endTime.getTime()
+      if (date === startTime || date === endTime) {
+        entries.push(entry)
+      }
+    })
+
+    return entries
   }
 }
 
