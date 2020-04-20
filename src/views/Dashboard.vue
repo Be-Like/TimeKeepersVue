@@ -12,23 +12,17 @@
       </div>
     </div>
     <!-- Modals -->
-    <JobEntryModal v-if="entry.showAddEntryModal" />
-    <JobEntryModal
-      v-if="entry.showEditEntryModal"
-      :jobEntry="entry.selectedJobEntry"
-    />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import JobEntries from '../components/dashboard/JobEntries'
-import JobEntryModal from '../components/modals/JobEntryModal'
 import { mapState } from 'vuex'
 
 export default {
   components: {
     JobEntries,
-    JobEntryModal
   },
 
   computed: {

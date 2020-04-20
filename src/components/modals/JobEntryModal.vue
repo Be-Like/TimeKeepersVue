@@ -4,7 +4,7 @@
       <div class="modal">
         <form class="modal-dialog" @submit.prevent="saveEntry">
           <!-- Title -->
-          <div class="modal-title">
+          <div class="modal-title" @click="test">
             <p>{{ jobEntry ? 'Edit' : 'Add' }} Job Entry</p>
           </div>
           <!-- Body -->
@@ -119,7 +119,7 @@
 
 <script>
 import DatePicker from 'vue2-datepicker'
-import { mapMutations, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -135,6 +135,7 @@ export default {
 
   data() {
     return {
+      id: null,
       selectedJob: '',
       startTime: null,
       endTime: null,
@@ -154,21 +155,39 @@ export default {
   },
 
   mounted() {
-    if (this.job) {
-      console.log('We are editing this job entry', this.job.jobTitle)
+    this.getJobs()
+
+    if (this.jobEntry) {
+      let jobObject = {
+        company: this.jobEntry.company,
+        id: this.jobEntry.job,
+        jobTitle: this.jobEntry.jobTitle,
+        pay: this.jobEntry.pay
+      }
+
+      let breakTimeObjects = []
+      this.jobEntry.breakTimes.forEach(time => {
+        let start = new Date(time.startTime)
+        let end = new Date(time.endTime)
+        breakTimeObjects.push({ startTime: start, endTime: end })
+      })
+
+      this.id = this.jobEntry._id
+      this.selectedJob = jobObject
+      this.startTime = new Date(this.jobEntry.startTime)
+      this.endTime = new Date(this.jobEntry.endTime)
+      this.breakTimes = breakTimeObjects
+      this.notes = this.jobEntry.notes
     } else {
-      // Get jobs (company and job title)
       console.log('Adding job entry')
-      this.getJobs()
     }
   },
 
   methods: {
-    ...mapMutations('jobEntries', [
-      'setShowAddEntryModal',
-      'setShowEditEntryModal'
-    ]),
-    ...mapActions('jobEntries', ['addJobEntry']),
+    test() {
+      console.log('Selected job', this.selectedJob)
+    },
+    ...mapActions('jobEntries', ['addJobEntry', 'editJobEntry']),
     ...mapActions('management', ['getJobs']),
     addBreak() {
       this.breakTimes.push({
@@ -180,9 +199,7 @@ export default {
       this.breakTimes.splice(index, 1)
     },
     closeModal() {
-      this.jobEntry ?
-        this.setShowEditEntryModal(false) :
-        this.setShowAddEntryModal(false)
+      this.$router.back()
     },
     saveEntry() {
       this.validateSubmission()
@@ -191,6 +208,7 @@ export default {
       }
 
       const formData = {
+        id: this.id,
         job: this.selectedJob.id,
         pay: this.selectedJob.pay,
         jobTitle: this.selectedJob.jobTitle,
@@ -201,7 +219,8 @@ export default {
         notes: this.notes.trim()
       }
 
-      this.jobEntry ? console.log(`Will edit ${formData.job}`) : this.addJobEntry(formData)
+      this.jobEntry ? this.editJobEntry(formData) : this.addJobEntry(formData)
+      this.$router.push('/calendar')
     },
     validateSubmission() {
       this.validations.job = this.selectedJob ? false : true

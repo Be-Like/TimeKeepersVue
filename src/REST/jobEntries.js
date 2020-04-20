@@ -54,6 +54,28 @@ export const addJobEntry = async FormData => {
   }
 }
 
+export const editJobEntry = async (entryId, FormData) => {
+  try {
+    let breakTime = 0
+    FormData.breakTimes.forEach(time => {
+      breakTime += (time.endTime.getTime() - time.startTime.getTime())
+    })
+    let hours =
+      (FormData.endTime.getTime() - FormData.startTime.getTime()) - (breakTime)
+
+    FormData.hoursWorked = hours / (1000 * 60 * 60)
+    FormData.pay = FormData.pay * FormData.hoursWorked
+
+    console.log('Entry id', entryId)
+
+    const res = await axios.put(`/api/job-entry/${entryId}`, FormData, config)
+    return res.data
+  } catch (error) {
+    const errors = error.response
+    return { errors: errors}
+  }
+}
+
 export const deleteJobEntry = async entryId => {
   try {
     const res = await axios.delete(`/api/job-entry/${entryId}`)

@@ -3,8 +3,6 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 
-// const User = require('../../models/User');
-// const Job = require('../../models/Job');
 const JobEntry = require('../../models/JobEntry');
 
 /**

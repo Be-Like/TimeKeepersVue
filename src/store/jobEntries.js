@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
-import { getJobEntries, addJobEntry, deleteJobEntry } from '../REST/jobEntries'
+import { getJobEntries, addJobEntry, editJobEntry, deleteJobEntry } from '../REST/jobEntries'
 
 const namespaced = true
 
 const state = {
   jobEntriesArray: [],
-  showAddEntryModal: false,
-  showEditEntryModal: false,
   selectedJobEntry: null
 }
 
@@ -17,18 +14,17 @@ const mutations = {
   addEntryToArray(state, entry) {
     state.jobEntriesArray.push(entry)
   },
+  editJobEntryInArray(state, entry) {
+    state.selectedJobEntry = entry
+    const index = state.jobEntriesArray.map(x=> {return x._id}).indexOf(entry._id)
+    state.jobEntriesArray.splice(index, 1, entry)
+  },
   removeEntryFromArray(state, entryId) {
     let index = state.jobEntriesArray.map(x => {return x._id}).indexOf(entryId)
     if (state.jobEntriesArray[index]._id === entryId) {
       state.selectedJobEntry = null
     }
     state.jobEntriesArray.splice(index, 1)
-  },
-  setShowAddEntryModal(state, show) {
-    state.showAddEntryModal = show
-  },
-  setShowEditEntryModal(state, show) {
-    state.showEditEntryModal = show
   },
   setSelectedJobEntry(state, entry) {
     state.selectedJobEntry = entry
@@ -47,10 +43,16 @@ const actions = {
       return
     }
     commit('addEntryToArray', formData)
-    commit('setShowAddEntryModal', false)
   },
-  async editJobEntry({ commit }, formData) {
-    return
+  async editJobEntry({ commit }, entry) {
+    console.log('Entry', entry)
+    const res = await editJobEntry(entry.id, entry)
+    if (res.errors) {
+      console.log('Errors:', res.errors)
+      alert('There was an error connecting with the server. Please try again.')
+      return
+    }
+    commit('editJobEntryInArray', entry)
   },
   async deleteJobEntry({ commit }, entryId) {
     const res = await deleteJobEntry(entryId)

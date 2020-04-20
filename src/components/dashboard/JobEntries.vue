@@ -6,7 +6,11 @@
         <h3>Job Entries</h3>
       </div>
       <div class="col-3 actions">
-        <i class="material-icons" @click="setShowAddEntryModal(true)">add</i>
+        <router-link
+          :to="{ name: 'addJobEntry' }"
+          tag="i"
+          class="material-icons"
+        >add</router-link>
       </div>
     </div>
     <!-- Entries -->
@@ -28,7 +32,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   mounted() {
     this.getJobEntries()
@@ -40,7 +44,6 @@ export default {
 
   methods: {
     ...mapActions('jobEntries', ['getJobEntries']),
-    ...mapMutations('jobEntries', ['setShowAddEntryModal']),
     selectJobEntry(entry) {
       console.log('Entry', entry)
     }

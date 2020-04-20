@@ -7,6 +7,7 @@ import Management from '../views/Management'
 import Accounting from '../views/Accounting'
 import Expenses from '../views/Expenses'
 import Calendar from '../views/Calendar'
+import JobEntryModal from '../components/modals/JobEntryModal'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,14 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+    children: [
+      {
+        path: 'add-job-entry',
+        component: JobEntryModal,
+        props: false,
+        name: 'addJobEntry'
+      }
+    ],
     meta: {
       requiresAuth: true
     }
@@ -62,6 +71,14 @@ const routes = [
     path: '/calendar',
     name: 'Calendar',
     component: Calendar,
+    children: [
+      {
+        path: 'edit-job-entry/:id',
+        component: JobEntryModal,
+        props: true,
+        name: 'editJobEntry'
+      }
+    ],
     meta: {
       requiresAuth: true
     }

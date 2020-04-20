@@ -5,12 +5,14 @@
         {{ entry.company }} <small>{{ entry.jobTitle }}</small>
       </h3>
       <div class="col-2 icons">
-        <i
+        <router-link
+          :to="{
+            name: 'editJobEntry',
+            params: { id: entry.id, jobEntry: entry }
+          }"
+          tag="i"
           class="material-icons edit-icon"
-          @click="setShowEditJobModal(true)"
-        >
-          edit
-        </i>
+        >edit</router-link>
         <i
           class="material-icons delete-icon"
           @click="deleteJobEntry(entry._id)"
@@ -21,7 +23,7 @@
     </div>
     <div class="job-entry-info-body">
       <p class="section-label">
-        Compensation Information
+        Compensation Information {{entry.id}}
       </p>
       <div class="compensation-info">
         <p><b>Pay:</b> ${{ entry.pay.toFixed(2) }}</p>
@@ -58,7 +60,7 @@
 <script>
 // TODO: delete entry, edit entry
 import { formatDateTime } from '../../miscellaneous/format-dates'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   computed: {
     ...mapState('jobEntries', {
@@ -72,6 +74,7 @@ export default {
 
   methods: {
     ...mapActions('jobEntries', ['deleteJobEntry']),
+    ...mapMutations('jobEntries', ['setShowEditEntryModal']),
     dateTime(date) {
       return formatDateTime(date)
     }
