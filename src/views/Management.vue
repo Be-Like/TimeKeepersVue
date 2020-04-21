@@ -8,24 +8,19 @@
         <JobInfo />
       </div>
     </div>
-    <JobInfoModal v-if="management.showAddJobModal" />
-    <JobInfoModal
-      v-if="management.showEditJobModal"
-      :job="management.selectedJob"
-    />
+    <!-- Modal -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import JobList from '../components/management/JobList'
-import JobInfoModal from '../components/modals/JobInfoModal'
 import JobInfo from '../components/management/JobInfo'
 import { mapState } from 'vuex'
 
 export default {
   components: {
     JobList,
-    JobInfoModal,
     JobInfo
   },
 

@@ -3,12 +3,14 @@
     <div class="job-info-header row">
       <h3 class="col-10">{{ job.company }} <small>({{ job.jobTitle }})</small></h3>
       <div class="col-2 icons">
-        <i
+        <router-link
+          :to="{
+            name: 'editJob',
+            params: { id: job._id, job: job }
+          }"
+          tag="i"
           class="material-icons edit-icon"
-          @click="setShowEditJobModal(true)"
-        >
-          edit
-        </i>
+        >edit</router-link>
         <i
           class="material-icons delete-icon"
           @click="deleteAlert()"
@@ -52,7 +54,7 @@
 
 <script>
 import { formatDate } from '../../miscellaneous/format-dates'
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapState('management', {
@@ -69,7 +71,6 @@ export default {
   },
 
   methods: {
-    ...mapMutations('management', ['setShowEditJobModal']),
     ...mapActions('mangement', ['deleteJob']),
     deleteAlert() {
       let confirm = window.confirm(

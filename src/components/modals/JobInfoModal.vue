@@ -597,7 +597,7 @@
 import DatePicker from 'vue2-datepicker'
 import 'vue2-datepicker/index.css'
 import { formatDate } from '../../miscellaneous/format-dates'
-import { mapMutations, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   props: {
@@ -684,12 +684,8 @@ export default {
 
   methods: {
     ...mapActions('management', ['addJob', 'editJob']),
-    ...mapMutations('management', [
-      'setShowAddJobModal',
-      'setShowEditJobModal'
-    ]),
     closeModal() {
-      this.job ? this.setShowEditJobModal(false) : this.setShowAddJobModal(false)
+      this.$router.back()
     },
     async saveJob() {
       this.validateSubmission()
@@ -698,6 +694,7 @@ export default {
       }
 
       this.job ? this.editJob(this.formData) : this.addJob(this.formData)
+      this.$router.back()
     },
     validateSubmission() {
       this.validations.company = this.formData.company ? false : true

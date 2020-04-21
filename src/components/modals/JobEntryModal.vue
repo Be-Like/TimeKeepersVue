@@ -17,9 +17,9 @@
               >
                 <option value="">Select a job</option>
                 <option
-                  v-for="(job, index) in getCompanyAndJob"
-                  :key="index"
-                  :value="job"
+                  v-for="job in jobs"
+                  :key="job._id"
+                  :value="job._id"
                 >
                   {{ job.company}} - {{ job.jobTitle }}
                 </option>
@@ -119,7 +119,7 @@
 
 <script>
 import DatePicker from 'vue2-datepicker'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
   props: {
@@ -151,20 +151,16 @@ export default {
   },
 
   computed: {
-    ...mapGetters('management', ['getCompanyAndJob'])
+    ...mapState('management', {
+      jobs: state => state.jobsArray
+    }),
+    ...mapGetters('management', ['getJobEntryInfo'])
   },
 
   mounted() {
     this.getJobs()
 
     if (this.jobEntry) {
-      let jobObject = {
-        company: this.jobEntry.company,
-        id: this.jobEntry.job,
-        jobTitle: this.jobEntry.jobTitle,
-        pay: this.jobEntry.pay
-      }
-
       let breakTimeObjects = []
       this.jobEntry.breakTimes.forEach(time => {
         let start = new Date(time.startTime)
@@ -173,7 +169,7 @@ export default {
       })
 
       this.id = this.jobEntry._id
-      this.selectedJob = jobObject
+      this.selectedJob = this.jobEntry.job
       this.startTime = new Date(this.jobEntry.startTime)
       this.endTime = new Date(this.jobEntry.endTime)
       this.breakTimes = breakTimeObjects
@@ -207,12 +203,14 @@ export default {
         return
       }
 
+      let jobInfo = this.getJobEntryInfo(this.selectedJob)
+
       const formData = {
         _id: this.id,
-        job: this.selectedJob.id,
-        pay: this.selectedJob.pay,
-        jobTitle: this.selectedJob.jobTitle,
-        company: this.selectedJob.company,
+        job: jobInfo.id,
+        pay: jobInfo.pay,
+        jobTitle: jobInfo.jobTitle,
+        company: jobInfo.company,
         startTime: this.startTime,
         endTime: this.endTime,
         breakTimes: this.breakTimes,
@@ -220,7 +218,7 @@ export default {
       }
 
       this.jobEntry ? this.editJobEntry(formData) : this.addJobEntry(formData)
-      this.$router.push('/calendar')
+      this.$router.back()
     },
     validateSubmission() {
       this.validations.job = this.selectedJob ? false : true

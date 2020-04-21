@@ -1,11 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { addJob, editJob, getJobs, deleteJob } from '../REST/job'
 
 const namespaced = true
 
 const state = {
   jobsArray: [],
-  showAddJobModal: false,
-  showEditJobModal: false,
   selectedJob: null
 }
 
@@ -29,12 +28,6 @@ const mutations = {
     }
     state.jobsArray.splice(index, 1)
   },
-  setShowAddJobModal(state, showAddJobModal) {
-    state.showAddJobModal = showAddJobModal
-  },
-  setShowEditJobModal(state, showEditJobModal) {
-    state.showEditJobModal = showEditJobModal
-  },
   setSelectedJob(state, selectedJob) {
     console.log('Selected Job: ', selectedJob)
     state.selectedJob = selectedJob
@@ -48,7 +41,6 @@ const actions = {
       console.log('Error creating job:', res.errors)
     } else {
       commit('addJobToArray', res)
-      commit('setShowAddJobModal', false)
     }
   },
   async editJob({ commit }, job) {
@@ -57,7 +49,6 @@ const actions = {
       alert('There were errors editing the job. Please try again')
     } else {
       commit('editJobInArray', res)
-      commit('setShowEditJobModal', false)
     }
   },
   async getJobs({ commit }) {
@@ -78,26 +69,17 @@ const getters = {
   getJobsArray: state => {
     return state.jobsArray
   },
-  getCompanyAndJob: state => {
-    let jobs = []
-    state.jobsArray.forEach(job => {
-      if (job.paymentType === 'hourly') {
-        jobs.push({
-          id: job._id,
-          company: job.company,
-          jobTitle: job.jobTitle,
-          pay: job.pay
-        })
-      } else {
-        jobs.push({
-          id: job._id,
-          company: job.company,
-          jobTitle: job.jobTitle,
-          pay: 0
-        })
-      }
-    })
-    return jobs
+  getJobEntryInfo: state => jobId => {
+    console.log('Job ID:', jobId)
+    let index = state.jobsArray.map(x => {return x._id}).indexOf(jobId)
+    let job = state.jobsArray[index]
+    let jobEntryInfo = {
+      id: job._id,
+      pay: job.pay,
+      jobTitle: job.jobTitle,
+      company: job.company
+    }
+    return jobEntryInfo
   }
 }
 

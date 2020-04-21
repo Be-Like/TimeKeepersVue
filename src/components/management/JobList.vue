@@ -6,7 +6,11 @@
         <h3>Job's List</h3>
       </div>
       <div class="col-3 actions">
-        <i class="material-icons" @click="setShowAddJobModal(true)">add</i>
+        <router-link
+          :to="{ name: 'addJob' }"
+          tag="i"
+          class="material-icons"
+        >add</router-link>
       </div>
     </div>
     <!-- Content: Job List -->
@@ -36,7 +40,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('management', ['setShowAddJobModal', 'setSelectedJob']),
+    ...mapMutations('management', ['setSelectedJob']),
     ...mapActions('management', ['getJobs'])
   }
 }

@@ -4,6 +4,7 @@ import NotFound from '../views/NotFound'
 import Home from '../views/Home'
 import Dashboard from '../views/Dashboard'
 import Management from '../views/Management'
+import JobInfoModal from '../components/modals/JobInfoModal'
 import Accounting from '../views/Accounting'
 import Expenses from '../views/Expenses'
 import Calendar from '../views/Calendar'
@@ -47,6 +48,20 @@ const routes = [
     path: '/management',
     name: 'Management',
     component: Management,
+    children: [
+      {
+        path: 'add-job',
+        props: false,
+        component: JobInfoModal,
+        name: 'addJob'
+      },
+      {
+        path: 'edit-job/:id',
+        props: true,
+        component: JobInfoModal,
+        name: 'editJob'
+      }
+    ],
     meta: {
       requiresAuth: true
     }
