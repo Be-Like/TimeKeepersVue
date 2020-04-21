@@ -208,7 +208,7 @@ export default {
       }
 
       const formData = {
-        id: this.id,
+        _id: this.id,
         job: this.selectedJob.id,
         pay: this.selectedJob.pay,
         jobTitle: this.selectedJob.jobTitle,

@@ -102,7 +102,6 @@ router.post(
  */
 router.get('/', auth, async (req, res) => {
   try {
-    // console.log(req.user.id);
     const jobs = await Job.find({ user: req.user.id });
     res.json(jobs);
   } catch (error) {

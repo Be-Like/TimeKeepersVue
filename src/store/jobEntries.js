@@ -46,7 +46,7 @@ const actions = {
   },
   async editJobEntry({ commit }, entry) {
     console.log('Entry', entry)
-    const res = await editJobEntry(entry.id, entry)
+    const res = await editJobEntry(entry._id, entry)
     if (res.errors) {
       console.log('Errors:', res.errors)
       alert('There was an error connecting with the server. Please try again.')

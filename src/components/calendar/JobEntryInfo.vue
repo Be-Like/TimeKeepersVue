@@ -8,7 +8,7 @@
         <router-link
           :to="{
             name: 'editJobEntry',
-            params: { id: entry.id, jobEntry: entry }
+            params: { id: entry._id, jobEntry: entry }
           }"
           tag="i"
           class="material-icons edit-icon"
@@ -23,7 +23,7 @@
     </div>
     <div class="job-entry-info-body">
       <p class="section-label">
-        Compensation Information {{entry.id}}
+        Compensation Information {{entry._id}}
       </p>
       <div class="compensation-info">
         <p><b>Pay:</b> ${{ entry.pay.toFixed(2) }}</p>
