@@ -23,7 +23,7 @@
     </div>
     <div class="job-entry-info-body">
       <p class="section-label">
-        Compensation Information {{entry._id}}
+        Compensation Information
       </p>
       <div class="compensation-info">
         <p><b>Pay:</b> ${{ entry.pay.toFixed(2) }}</p>

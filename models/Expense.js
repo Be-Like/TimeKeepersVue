@@ -6,6 +6,11 @@ const ExpenseSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  job: {
+    type: Schema.Types.ObjectId,
+    ref: 'jobs',
+    required: true
+  },
   expense: {
     type: String,
     required: true
@@ -16,11 +21,6 @@ const ExpenseSchema = new Schema({
   },
   cost: {
     type: Number,
-    required: true
-  },
-  job: {
-    type: Schema.Types.ObjectId,
-    ref: 'jobs',
     required: true
   },
   expenseDate: {
@@ -43,12 +43,12 @@ const ExpenseSchema = new Schema({
     type: String,
     default: null
   },
-  zipcode: {
-    type: Number,
-    default: null
-  },
   country: {
     type: String,
+    default: null
+  },
+  zipcode: {
+    type: Number,
     default: null
   }
 });
