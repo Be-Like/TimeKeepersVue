@@ -20,7 +20,7 @@
         :key="expense._id"
       >
         <td>{{ expense.expense }}</td>
-        <td>{{ expense.expenseDate }}</td>
+        <td>{{ getFormattedDate(expense.expenseDate) }}</td>
         <td>${{ expense.cost }}</td>
       </tr>
     </table>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { formatDate } from '../../miscellaneous/format-dates'
 import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
@@ -41,7 +42,10 @@ export default {
   },
 
   methods: {
-    ...mapActions('expenses', ['getExpenses'])
+    ...mapActions('expenses', ['getExpenses']),
+    getFormattedDate(date) {
+      return formatDate(date)
+    }
   }
 }
 </script>
