@@ -7,6 +7,7 @@ import Management from '../views/Management'
 import JobInfoModal from '../components/modals/JobInfoModal'
 import Accounting from '../views/Accounting'
 import Expenses from '../views/Expenses'
+import ExpenseEntryModal from '../components/modals/ExpenseEntryModal'
 import Calendar from '../views/Calendar'
 import JobEntryModal from '../components/modals/JobEntryModal'
 
@@ -78,6 +79,20 @@ const routes = [
     path: '/expenses',
     name: 'Expenses',
     component: Expenses,
+    children: [
+      {
+        path: 'add-expense',
+        component: ExpenseEntryModal,
+        props: false,
+        name: 'addExpense'
+      },
+      {
+        path: 'edit-expense/:id',
+        component: ExpenseEntryModal,
+        props: true,
+        name: 'editExpense'
+      }
+    ],
     meta: {
       requiresAuth: true
     }

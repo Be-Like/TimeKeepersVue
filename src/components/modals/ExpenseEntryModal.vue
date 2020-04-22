@@ -1,109 +1,39 @@
 <template>
   <div>
-    <div class="modal-overlay" />
+    <div class="modal-overlay"/>
     <div class="modal">
-      <form class="modal-dialog" @submit.prevent="saveJob">
-        <!-- Title -->
+      <form class="modal-dialog" @submit.prevent="saveExpense">
+        <!-- title -->
         <div class="modal-title">
-          <p>{{ job ? 'Edit' : 'Add'}} Job</p>
+          <p>Expense</p>
         </div>
-        <!-- Body -->
+        <!-- body -->
         <div class="modal-body">
+          <!-- expense info: expense, cost, store name, expense type, expenseDate -->
           <div class="form-group">
-            <label class="section-label">Job Information</label>
+            <label class="section-label">Expense Information</label>
             <input
               class="form-control"
-              v-model="formData.company"
+              v-model="expense"
               type="text"
-              placeholder="Company"
+              placeholder="Expense Title"
             >
-            <div class="form-error" v-if="validations.company">Company is required</div>
+            <div class="form-error" v-if="validations.expense">Expense title is required</div>
             <input
               class="form-control"
-              v-model="formData.jobTitle"
-              type="text"
-              placeholder="Job Title"
-            >
-            <div class="form-error" v-if="validations.jobTitle">Job title is required</div>
-          </div>
-          <div class="form-group">
-            <label class="section-label">Compensation Information</label><br>
-            <div class="compensation-type-selection">
-              <p>Select compensation type:</p>
-              <input
-                v-model="formData.paymentType"
-                id="hourly"
-                name="salary-type"
-                type="radio"
-                value="hourly"
-                :disabled="job ? true : false"
-              >
-              <label for="hourly">Hourly</label>
-              <input
-                v-model="formData.paymentType"
-                id="salary"
-                name="salary-type"
-                type="radio"
-                value="salary"
-                :disabled="job ? true :false"
-              >
-              <label for="salary">Salary</label>
-              <input
-                v-model="formData.paymentType"
-                id="contract"
-                name="salary-type"
-                type="radio"
-                value="contract"
-                :disabled="job ? true :false"
-              >
-              <label for="contract">Contract</label>
-            </div>
-            <select
-              v-if="formData.paymentType === 'salary' && !job"
-              class="form-control"
-              v-model="formData.payPeriod"
-            >
-              <option value="">Select pay period</option>
-              <option value="Weekly">Weekly</option>
-              <option value="Bi-Weekly">Bi-Weekly</option>
-              <option value="Bi-Monthly">Bi-Monthly</option>
-              <option value="Monthly">Monthly</option>
-              <option value="Quarterly">Quarterly</option>
-              <option value="Semi-Annually">Semi-Annually</option>
-              <option value="Annually">Annually</option>
-            </select>
-            <p v-else-if="formData.paymentType === 'salary' && job">
-              <b>Pay Period:</b> {{ job.payPeriod }}
-            </p>
-            <div
-              v-if="formData.paymentType === 'salary' && validations.payPeriod"
-              class="form-error"
-            >
-              Pay period is required
-            </div>
-            <date-picker
-              v-if="formData.paymentType === 'salary' && !job"
-              v-model="formData.payDate"
-              class="date-picker"
-              placeholder="Select next pay date"
-            />
-            <p v-else-if="formData.paymentType === 'salary' && job">
-              <b>Pay Date:</b> {{ formattedDate }}
-            </p>
-            <div
-              v-if="formData.paymentType === 'salary' && validations.payDate"
-              class="form-error"
-            >
-              Pay date is required
-            </div>
-            <input
-              v-if="formData.paymentType"
-              class="form-control"
-              v-model="formData.pay"
+              v-model="cost"
               type="number"
-              :placeholder="formData.paymentType === 'hourly' ? 'Pay Rate' : 'Pay'"
+              placeholder="Expense Cost"
             >
-            <div class="form-error" v-if="validations.pay">Pay/Pay rate is required</div>
+            <div class="form-error" v-if="validations.cost">Expense cost is required</div>
+            <input
+              class="form-control"
+              v-model="storeName"
+              type="text"
+              placeholder="Store Name"
+            >
+            <!-- expense type: selection/option -->
+            <!-- expense date: datepicker -->
           </div>
           <div class="form-group">
             <div class="inline-icon icon-button" @click="showAddress = !showAddress">
@@ -115,19 +45,19 @@
             <div v-if="showAddress">
               <input
                 class="form-control"
-                v-model="formData.street"
+                v-model="street"
                 type="text"
                 placeholder="Street Address"
               >
               <input
                 class="form-control"
-                v-model="formData.city"
+                v-model="city"
                 type="text"
                 placeholder="City"
               >
               <select
                 class="form-control"
-                v-model="formData.state"
+                v-model="state"
               >
                 <option value=''>Select State</option>
                 <option value='AL'>Alabama</option>
@@ -192,7 +122,7 @@
               </select>
               <select
                 class="form-control"
-                v-model="formData.country"
+                v-model="country"
               >
                 <option value=''>Select Country</option>
                 <option value='US'>United States</option>
@@ -463,88 +393,14 @@
               </select>
               <input
                 class="form-control"
-                v-model="formData.zipcode"
+                v-model="zipcode"
                 type="text"
                 placeholder="Zip Code"
               >
             </div>
           </div>
-          <div class="form-group">
-            <div class="inline-icon icon-button" @click="showContact = !showContact">
-              <label class="section-label icon-button">Contact Information</label>
-              <i class="material-icons">
-                {{showContact ? 'expand_less' : 'expand_more' }}
-              </i>
-            </div>
-            <div v-if="showContact">
-              <input
-                class="form-control"
-                v-model="formData.phone"
-                type="text"
-                placeholder="Phone Number"
-              >
-              <input
-                class="form-control"
-                v-model="formData.email"
-                type="text"
-                placeholder="Email"
-              >
-              <input
-                class="form-control"
-                v-model="formData.website"
-                type="text"
-                placeholder="Website"
-              >
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="inline-icon icon-button" @click="showTaxes = !showTaxes">
-              <label class="section-label icon-button">Taxes and Withholdings</label>
-              <i class="material-icons">
-                {{showAddress ? 'expand_less' : 'expand_more' }}
-              </i>
-            </div>
-            <div v-if="showTaxes">
-              <input
-                class="form-control"
-                v-model="formData.federalIncomeTax"
-                type="text"
-                placeholder="Federal Income Tax (%)"
-              >
-              <input
-                class="form-control"
-                v-model="formData.stateIncomeTax"
-                type="text"
-                placeholder="State Income Tax (%)"
-              >
-              <input
-                class="form-control"
-                v-model="formData.socialSecurity"
-                type="text"
-                placeholder="Social Security (%)"
-              >
-              <input
-                class="form-control"
-                v-model="formData.medicare"
-                type="text"
-                placeholder="Medicare (%)"
-              >
-              <input
-                class="form-control"
-                v-model="formData.retirement"
-                type="text"
-                placeholder="Individual Retirement (%)"
-              >
-              <input
-                class="form-control"
-                v-model="formData.otherWithholdings"
-                type="text"
-                placeholder="Other Withholdings (%)"
-              >
-            </div>
-          </div>
         </div>
-        <!-- Actions -->
+        <!-- actions -->
         <div class="modal-actions">
           <button
             type="button"
@@ -561,124 +417,41 @@
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker'
-import 'vue2-datepicker/index.css'
-import { formatDate } from '../../miscellaneous/format-dates'
-import { mapActions } from 'vuex'
-
 export default {
-  props: {
-    job: {
-      type: Object,
-      default: null
-    }
-  },
-
-  components: {
-    DatePicker
-  },
-
   data() {
     return {
       showAddress: false,
-      showContact: false,
-      showTaxes: false,
-      formData: {
-        _id: null,
-        company: '',
-        jobTitle: '',
-        paymentType: '',
-        payPeriod: '',
-        payDate: null,
-        pay: '',
-        street: '',
-        city: '',
-        state: '',
-        country: '',
-        zipcode: '',
-        phoneNumber: '',
-        email: '',
-        website: '',
-        federalIncomeTax: null,
-        stateIncomeTax: null,
-        socialSecurity: null,
-        medicare: null,
-        retirement: null,
-        otherWithholdings: null
-      },
+      expense: '',
+      cost: null,
+      storeName: '',
+      street: '',
+      city: '',
+      state: '',
+      country: '',
+      zipcode: '',
       validations: {
-        company: null,
-        jobTitle: null,
-        pay: null,
-        payPeriod: null,
-        payDate: null
-      },
-      isValid: false
-    }
-  },
-
-  computed: {
-    formattedDate() {
-      return formatDate(this.job.payDate)
-    }
-  },
-
-  mounted() {
-    if (this.job) {
-      this.formData._id = this.job._id
-      this.formData.company = this.job.company
-      this.formData.jobTitle = this.job.jobTitle
-      this.formData.paymentType = this.job.paymentType
-      this.formData.payPeriod = this.job.payPeriod
-      this.formData.payDate = this.job.payDate
-      this.formData.pay = this.job.pay
-      this.formData.street = this.job.street
-      this.formData.city = this.job.city
-      this.formData.state = this.job.state
-      this.formData.country = this.job.country
-      this.formData.zipcode = this.job.zipcode
-      this.formData.phoneNumber = this.job.phoneNumber
-      this.formData.email = this.job.email
-      this.formData.website = this.job.website
-      this.formData.federalIncomeTax = this.job.federalIncomeTax
-      this.formData.stateIncomeTax = this.job.stateIncomeTax
-      this.formData.socialSecurity = this.job.socialSecurity
-      this.formData.medicare = this.job.medicare
-      this.formData.retirement = this.job.retirement
-      this.formData.otherWithholdings = this.job.otherWithholdings
+        expense: null,
+        cost: null
+      }
     }
   },
 
   methods: {
-    ...mapActions('management', ['addJob', 'editJob']),
     closeModal() {
       this.$router.back()
     },
-    async saveJob() {
-      this.validateSubmission()
-      if (!this.isValid) {
-        return
+    saveExpense() {
+      let formData = {
+        expense: this.expense,
+        cost: this.cost,
+        storeName: this.storeName,
+        street: this.street,
+        city: this.city,
+        state: this.state,
+        country: this.country,
+        zipcode: this.zipcode,
       }
-
-      this.job ? this.editJob(this.formData) : this.addJob(this.formData)
-      this.$router.back()
-    },
-    validateSubmission() {
-      this.validations.company = this.formData.company ? false : true
-      this.validations.jobTitle = this.formData.jobTitle ? false : true
-      this.validations.pay = this.formData.pay ? false : true
-      this.validations.payPeriod = this.formData.payPeriod ? false : true
-      this.validations.payDate = this.formData.payDate ? false : true
-
-      if (
-        !this.validations.company ||
-        !this.validations.jobTitle ||
-        !this.validations.pay ||
-        !this.validations.payPeriod ||
-        !this.validations.payDate
-      ) {
-        this.isValid = true
-      }
+      console.log('Saving expense', formData)
     }
   }
 }
@@ -689,20 +462,7 @@ export default {
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
   }
 
-  .compensation-type-selection {
-    margin-bottom: 15px;
-  }
-
   .icon-button {
     cursor: pointer;
-  }
-
-  .date-picker {
-    margin-bottom: 15px;
-    width: 100%;
-  }
-
-  button {
-    margin-right: 10px;
   }
 </style>
