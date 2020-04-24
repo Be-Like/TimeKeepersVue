@@ -15,6 +15,7 @@
         >edit</router-link>
         <i
           class="material-icons delete-icon"
+          @click="deleteExpense(expense._id)"
         >
           delete_forever
         </i>
@@ -45,7 +46,7 @@
 
 <script>
 import { formatDate } from '../../miscellaneous/format-dates'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapState('expenses', {
@@ -54,6 +55,7 @@ export default {
   },
 
   methods: {
+    ...mapActions('expenses', ['deleteExpense']),
     getFormattedDate(date) {
       return formatDate(date)
     }

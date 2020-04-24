@@ -88,4 +88,32 @@ router.post(
   }
 );
 
+/**
+ * @route DELETE api/expenses/:expense_id
+ * @description Delete selected expense
+ * @access Private
+ */
+router.delete('/:expense_id', auth, async (req, res) => {
+  try {
+    const expense = await Expense.findById(req.params.expense_id)
+
+    if (!expense) {
+      return res.status(404).json({ msg: 'Expense not found' })
+    }
+
+    if (expense.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' })
+    }
+
+    await expense.remove()
+
+    res.json({ msg: 'Expense removed' })
+  } catch (error) {
+    console.error(error.message)
+    if (error.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Expense not found' })
+    }
+  }
+})
+
 module.exports = router;

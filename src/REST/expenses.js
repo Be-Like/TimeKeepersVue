@@ -42,3 +42,12 @@ export const addExpense = async FormData => {
     return { errors: errors }
   }
 }
+
+export const deleteExpense = async expenseId => {
+  try {
+    const res = await axios.delete(`/api/expenses/${expenseId}`)
+    return res.data
+  } catch (error) {
+    return { errors: error.response}
+  }
+}
