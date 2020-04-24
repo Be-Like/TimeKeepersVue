@@ -58,9 +58,8 @@
 </template>
 
 <script>
-// TODO: delete entry, edit entry
 import { formatDateTime } from '../../miscellaneous/format-dates'
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapState('jobEntries', {
@@ -74,7 +73,6 @@ export default {
 
   methods: {
     ...mapActions('jobEntries', ['deleteJobEntry']),
-    ...mapMutations('jobEntries', ['setShowEditEntryModal']),
     dateTime(date) {
       return formatDateTime(date)
     }

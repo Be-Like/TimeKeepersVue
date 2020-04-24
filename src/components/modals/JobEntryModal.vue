@@ -180,9 +180,6 @@ export default {
   },
 
   methods: {
-    test() {
-      console.log('Selected job', this.selectedJob)
-    },
     ...mapActions('jobEntries', ['addJobEntry', 'editJobEntry']),
     ...mapActions('management', ['getJobs']),
     addBreak() {

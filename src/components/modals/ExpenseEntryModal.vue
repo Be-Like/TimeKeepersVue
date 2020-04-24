@@ -9,6 +9,23 @@
         </div>
         <!-- body -->
         <div class="modal-body">
+          <div class="form-group">
+            <label class="section-label">Job Information</label>
+            <select
+              class="form-control"
+              v-model="selectedJob"
+            >
+              <option value="">Select a job</option>
+              <option
+                v-for="job in jobs"
+                :key="job._id"
+                :value="job._id"
+              >
+                {{ job.company }} - {{ job.jobTitle }}
+              </option>
+            </select>
+            <div class="form-error" v-if="validations.selectedJob">Job selection is required</div>
+          </div>
           <!-- expense info: expense, cost, store name, expense type, expenseDate -->
           <div class="form-group">
             <label class="section-label">Expense Information</label>
@@ -23,6 +40,7 @@
               class="form-control"
               v-model="cost"
               type="number"
+              step=".01"
               placeholder="Expense Cost"
             >
             <div class="form-error" v-if="validations.cost">Expense cost is required</div>
@@ -32,8 +50,25 @@
               type="text"
               placeholder="Store Name"
             >
-            <!-- expense type: selection/option -->
-            <!-- expense date: datepicker -->
+            <select
+              class="form-control"
+              v-model="expenseType"
+            >
+              <option value="other">Select expense type</option>
+              <option value="benefits">Benefits</option>
+              <option value="grocery">Grocery</option>
+              <option value="hardware">Hardware</option>
+              <option value="meals">Meals</option>
+              <option value="office supplies">Office Supplies</option>
+              <option value="other">Other</option>
+              <option value="travel">Travel</option>
+              <option value="utilities">Utilities</option>
+            </select>
+            <date-picker
+              v-model="expenseDate"
+              class="date-picker"
+              placeholder="Select date of expense"
+            />
           </div>
           <div class="form-group">
             <div class="inline-icon icon-button" @click="showAddress = !showAddress">
@@ -417,34 +452,66 @@
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker'
+import { mapActions, mapState } from 'vuex'
 export default {
+  components: {
+    DatePicker
+  },
+
   data() {
     return {
       showAddress: false,
+      selectedJob: '',
       expense: '',
       cost: null,
       storeName: '',
+      expenseType: 'other',
+      expenseDate: null,
       street: '',
       city: '',
       state: '',
       country: '',
       zipcode: '',
       validations: {
+        selectedJob: null,
         expense: null,
         cost: null
-      }
+      },
+      isValid: false
     }
   },
 
+  computed: {
+    ...mapState('management', {
+      jobs: state => state.jobsArray
+    })
+  },
+
+  mounted() {
+    this.getJobs()
+  },
+
   methods: {
+    ...mapActions('expenses', ['addExpense']),
+    ...mapActions('management', ['getJobs']),
     closeModal() {
       this.$router.back()
     },
     saveExpense() {
+      this.validateSubmission()
+
+      if (!this.isValid) {
+        return
+      }
+
       let formData = {
+        job: this.selectedJob,
         expense: this.expense,
         cost: this.cost,
         storeName: this.storeName,
+        expenseType: this.expenseType,
+        expenseDate: this.expenseDate,
         street: this.street,
         city: this.city,
         state: this.state,
@@ -452,6 +519,19 @@ export default {
         zipcode: this.zipcode,
       }
       console.log('Saving expense', formData)
+      this.addExpense(formData)
+      this.$router.back()
+    },
+    validateSubmission() {
+      this.validations.selectedJob = this.selectedJob ? false : true
+      this.validations.expense = this.expense ? false : true
+      this.validations.cost = this.cost ? false : true
+
+      if (!this.validations.expense ||
+        !this.validations.cost ||
+        !this.validations.selectedJob) {
+        this.isValid = true
+      }
     }
   }
 }
@@ -462,7 +542,16 @@ export default {
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
   }
 
+  .date-picker {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
   .icon-button {
     cursor: pointer;
+  }
+
+  button {
+    margin-right: 10px;
   }
 </style>

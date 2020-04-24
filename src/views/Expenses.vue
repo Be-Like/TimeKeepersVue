@@ -5,7 +5,7 @@
         <ExpenseList />
       </div>
       <div class="col-9 expense-info">
-        Expense Info
+        <ExpenseInfo />
       </div>
     </div>
     <!-- Modal -->
@@ -15,9 +15,11 @@
 
 <script>
 import ExpenseList from '../components/expenses/ExpenseList'
+import ExpenseInfo from '../components/expenses/ExpenseInfo'
 export default {
   components: {
-    ExpenseList
+    ExpenseList,
+    ExpenseInfo
   }
 }
 </script>

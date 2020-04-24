@@ -18,6 +18,7 @@
       <tr
         v-for="expense in expenses"
         :key="expense._id"
+        @click="setSelectedExpense(expense)"
       >
         <td>{{ expense.expense }}</td>
         <td>{{ getFormattedDate(expense.expenseDate) }}</td>
@@ -29,7 +30,7 @@
 
 <script>
 import { formatDate } from '../../miscellaneous/format-dates'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   computed: {
     ...mapState('expenses', {
@@ -43,6 +44,7 @@ export default {
 
   methods: {
     ...mapActions('expenses', ['getExpenses']),
+    ...mapMutations('expenses', ['setSelectedExpense']),
     getFormattedDate(date) {
       return formatDate(date)
     }
