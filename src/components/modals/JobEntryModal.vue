@@ -174,8 +174,6 @@ export default {
       this.endTime = new Date(this.jobEntry.endTime)
       this.breakTimes = breakTimeObjects
       this.notes = this.jobEntry.notes
-    } else {
-      console.log('Adding job entry')
     }
   },
 

@@ -43,6 +43,15 @@ export const addExpense = async FormData => {
   }
 }
 
+export const editExpense = async (expenseId, FormData) => {
+  try {
+    const res = await axios.put(`/api/expenses/${expenseId}`, FormData, config)
+    return res.data
+  } catch (error) {
+    return { errors: error.response }
+  }
+}
+
 export const deleteExpense = async expenseId => {
   try {
     const res = await axios.delete(`/api/expenses/${expenseId}`)

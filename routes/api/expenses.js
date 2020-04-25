@@ -89,6 +89,75 @@ router.post(
 );
 
 /**
+ * @route PUT api/expenses/:expense_id
+ * @description Edit an expense
+ * @access Private
+ */
+router.put(
+  '/:expense_id',
+  auth,
+  [
+    check('expense', 'Expense name is required!')
+      .not()
+      .isEmpty(),
+    check('cost', 'Expense cost is required!')
+      .not()
+      .isEmpty(),
+    check('job', 'Job is required!')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    try {
+      const expenseEntry = await Expense.findById(req.params.expense_id)
+
+      if (!expenseEntry) {
+        return res.status(404).json({ msg: 'Expense not found' })
+      }
+
+      if (expenseEntry.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'User not authorized' })
+      }
+
+      const {
+        expense,
+        expenseType,
+        cost,
+        job,
+        expenseDate,
+        storeName,
+        street,
+        city,
+        state,
+        zipcode,
+        country
+      } = req.body;
+
+      expenseEntry.expense = expense
+      expenseEntry.expenseType = expenseType
+      expenseEntry.cost = cost
+      expenseEntry.job = job
+      expenseEntry.expenseDate = expenseDate
+      expenseEntry.storeName = storeName
+      expenseEntry.street = street
+      expenseEntry.city = city
+      expenseEntry.state = state
+      expenseEntry.zipcode = zipcode
+      expenseEntry.country = country
+
+      await expenseEntry.save()
+
+      res.json(expenseEntry)
+    } catch (error) {
+      console.error(error.message)
+      if (error.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'Expense not found' })
+      }
+    }
+  }
+)
+
+/**
  * @route DELETE api/expenses/:expense_id
  * @description Delete selected expense
  * @access Private

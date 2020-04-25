@@ -17,7 +17,7 @@ const ExpenseSchema = new Schema({
   },
   expenseType: {
     type: String,
-    default: 'Other'
+    default: 'other'
   },
   cost: {
     type: Number,

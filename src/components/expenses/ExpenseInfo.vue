@@ -8,7 +8,7 @@
         <router-link
           :to="{
             name: 'editExpense',
-            params: { id: expense._id, expense: expense }
+            params: { id: expense._id, expenseEntry: expense }
           }"
           tag="i"
           class="material-icons edit-icon"

@@ -54,7 +54,10 @@
               class="form-control"
               v-model="expenseType"
             >
-              <option value="other">Select expense type</option>
+              <option
+                v-if="!expenseEntry"
+                :value="undefined"
+              >Select expense type</option>
               <option value="benefits">Benefits</option>
               <option value="grocery">Grocery</option>
               <option value="hardware">Hardware</option>
@@ -453,8 +456,15 @@
 
 <script>
 import DatePicker from 'vue2-datepicker'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
+  props: {
+    expenseEntry: {
+      type: Object,
+      default: null
+    }
+  },
+
   components: {
     DatePicker
   },
@@ -462,12 +472,13 @@ export default {
   data() {
     return {
       showAddress: false,
+      id: null,
       selectedJob: '',
       expense: '',
       cost: null,
       storeName: '',
-      expenseType: 'other',
-      expenseDate: null,
+      expenseType: undefined,
+      expenseDate: undefined,
       street: '',
       city: '',
       state: '',
@@ -485,15 +496,31 @@ export default {
   computed: {
     ...mapState('management', {
       jobs: state => state.jobsArray
-    })
+    }),
+    ...mapGetters('management', ['getJobEntryInfo'])
   },
 
   mounted() {
     this.getJobs()
+
+    if (this.expenseEntry) {
+      this.id = this.expenseEntry._id
+      this.selectedJob = this.expenseEntry.job
+      this.expense = this.expenseEntry.expense
+      this.cost = this.expenseEntry.cost
+      this.storeName = this.expenseEntry.storeName
+      this.expenseType = this.expenseEntry.expenseType
+      this.expenseDate = new Date(this.expenseEntry.expenseDate)
+      this.street = this.expenseEntry.street
+      this.city = this.expenseEntry.city
+      this.state = this.expenseEntry.state
+      this.country = this.expenseEntry.country
+      this.zipcode = this.expenseEntry.zipcode
+    }
   },
 
   methods: {
-    ...mapActions('expenses', ['addExpense']),
+    ...mapActions('expenses', ['addExpense', 'editExpense']),
     ...mapActions('management', ['getJobs']),
     closeModal() {
       this.$router.back()
@@ -505,8 +532,13 @@ export default {
         return
       }
 
+      let jobInfo = this.getJobEntryInfo(this.selectedJob)
+
       let formData = {
+        _id: this.id,
         job: this.selectedJob,
+        company: jobInfo.company,
+        jobTitle: jobInfo.jobTitle,
         expense: this.expense,
         cost: this.cost,
         storeName: this.storeName,
@@ -518,8 +550,9 @@ export default {
         country: this.country,
         zipcode: this.zipcode,
       }
-      console.log('Saving expense', formData)
-      this.addExpense(formData)
+      console.log('Company and title?', formData)
+
+      this.expenseEntry ? this.editExpense(formData) : this.addExpense(formData)
       this.$router.back()
     },
     validateSubmission() {
