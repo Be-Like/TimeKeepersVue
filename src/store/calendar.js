@@ -7,6 +7,9 @@ const state = {
 const mutations = {
   setSelectedDate(state, date) {
     state.selectedDate = date
+  },
+  resetState(state) {
+    state.selectedDate = new Date()
   }
 }
 

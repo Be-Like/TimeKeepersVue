@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapState({
@@ -24,9 +24,11 @@ export default {
 
   methods: {
     ...mapMutations(['setAuthentication']),
+    ...mapActions(['resetState']),
     logout() {
       this.$cookies.remove('authToken')
       this.setAuthentication(false)
+      this.resetState()
       this.$router.push({name: 'Home' })
     }
   }

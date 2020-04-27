@@ -28,6 +28,10 @@ const mutations = {
   },
   setSelectedExpense(state, expense) {
     state.selectedExpense = expense
+  },
+  resetState(state) {
+    state.expenseArray = [],
+    state.selectedExpense = null
   }
 }
 

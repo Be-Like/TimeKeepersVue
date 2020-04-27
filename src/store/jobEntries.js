@@ -28,6 +28,10 @@ const mutations = {
   },
   setSelectedJobEntry(state, entry) {
     state.selectedJobEntry = entry
+  },
+  resetState(state) {
+    state.jobEntriesArray = [],
+    state.selectedJobEntry = null
   }
 }
 

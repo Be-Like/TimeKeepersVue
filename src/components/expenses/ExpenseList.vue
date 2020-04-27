@@ -20,9 +20,9 @@
         :key="expense._id"
         @click="setSelectedExpense(expense)"
       >
-        <td>{{ expense.expense }}</td>
-        <td>{{ getFormattedDate(expense.expenseDate) }}</td>
-        <td>${{ expense.cost }}</td>
+        <td class="outer-info">{{ expense.expense }}</td>
+        <td class="secondary-info">{{ getFormattedDate(expense.expenseDate) }}</td>
+        <td class="secondary-info outer-info">${{ expense.cost }}</td>
       </tr>
     </table>
   </div>
@@ -74,8 +74,16 @@ export default {
     cursor: pointer;
     height: 50px;
 
+    .outer-info {
+      padding: 0px 10px;
+    }
+
     &:last-child {
       border-bottom: none;
     }
+  }
+
+  .secondary-info {
+    text-align: right;
   }
 </style>

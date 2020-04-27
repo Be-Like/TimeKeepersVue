@@ -15,6 +15,12 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
+    resetState({ commit }) {
+      commit('calendar/resetState')
+      commit('expenses/resetState')
+      commit('jobEntries/resetState')
+      commit('management/resetState')
+    }
   },
   modules: {
     auth,

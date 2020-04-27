@@ -31,6 +31,10 @@ const mutations = {
   setSelectedJob(state, selectedJob) {
     console.log('Selected Job: ', selectedJob)
     state.selectedJob = selectedJob
+  },
+  resetState(state) {
+    state.jobsArray = [],
+    state.selectedJob = null
   }
 }
 

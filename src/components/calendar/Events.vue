@@ -17,9 +17,6 @@
         <td class="time-entry">{{ getTime(entry.endTime) }}</td>
       </tr>
     </table>
-    <footer>
-      <button class="btn btn-outline-primary">Add Job Entry</button>
-    </footer>
   </div>
 </template>
 
@@ -75,8 +72,5 @@ export default {
     &:last-child {
       border-bottom: none;
     }
-  }
-  button {
-    float: right;
   }
 </style>
