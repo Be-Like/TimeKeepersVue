@@ -79,7 +79,7 @@ const getters = {
     let job = state.jobsArray[index]
     let jobEntryInfo = {
       id: job._id,
-      pay: job.pay,
+      pay: job.paymentType === 'hourly' ? job.pay : 0,
       jobTitle: job.jobTitle,
       company: job.company
     }

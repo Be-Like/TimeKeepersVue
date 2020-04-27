@@ -19,7 +19,6 @@
         class="entry-index"
         v-for="(entry, index) in getJobEntriesArray"
         :key="index"
-        @click="testNamespace()"
       >
         <p class="job-list-name col-10">
           {{ entry.company }} <small>{{ entry.jobTitle }}</small>

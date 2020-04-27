@@ -39,6 +39,12 @@ const routes = [
         component: JobEntryModal,
         props: false,
         name: 'addJobEntry'
+      },
+      {
+        path: 'add-expense',
+        component: ExpenseEntryModal,
+        props: false,
+        name: 'addExpense'
       }
     ],
     meta: {

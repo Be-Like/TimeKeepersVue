@@ -8,7 +8,7 @@
         <JobEntries />
       </div>
       <div class="col-4 dashboard-right height-nav">
-        <h3>Sup bro</h3>
+        <Expenses />
       </div>
     </div>
     <!-- Modals -->
@@ -18,11 +18,13 @@
 
 <script>
 import JobEntries from '../components/dashboard/JobEntries'
+import Expenses from '../components/expenses/ExpenseList'
 import { mapState } from 'vuex'
 
 export default {
   components: {
     JobEntries,
+    Expenses,
   },
 
   computed: {
