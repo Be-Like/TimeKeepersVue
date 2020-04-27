@@ -5,6 +5,8 @@ const auth = require('../../middleware/auth');
 
 const User = require('../../models/User');
 const Job = require('../../models/Job');
+const JobEntry = require('../../models/JobEntry');
+const Expense = require('../../models/Expense');
 
 /**
  * @route POST api/jobs
@@ -220,6 +222,9 @@ router.delete('/:job_id', auth, async (req, res) => {
     if (job.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'User not authorized' });
     }
+
+    await JobEntry.deleteMany({ 'job': req.params.job_id })
+    await Expense.deleteMany({ 'job': req.params.job_id })
 
     await job.remove();
 

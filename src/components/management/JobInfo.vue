@@ -71,7 +71,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('mangement', ['deleteJob']),
+    ...mapActions('management', ['deleteJob']),
     deleteAlert() {
       let confirm = window.confirm(
         `Are you sure you want to delete ${this.job.company}` +
