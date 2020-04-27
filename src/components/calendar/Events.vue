@@ -1,7 +1,7 @@
 <template>
   <div class="events-container">
     <table>
-      <tr>
+      <tr class="table-header">
         <th class="title-header">Job</th>
         <th class="time-entry">Start Time</th>
         <th class="time-entry">End Time</th>
@@ -17,6 +17,9 @@
         <td class="time-entry">{{ getTime(entry.endTime) }}</td>
       </tr>
     </table>
+    <footer>
+      <button class="btn btn-outline-primary">Add Job Entry</button>
+    </footer>
   </div>
 </template>
 
@@ -46,10 +49,12 @@ export default {
   }
 
   table {
+    border-collapse: collapse;
     width: 100%;
   }
 
-  th {
+  .table-header {
+    border-bottom: 1px solid #ccc;
     font-size: 18px;
   }
 
@@ -62,8 +67,16 @@ export default {
   }
 
   .table-entries {
+    border-bottom: 1px solid #ccc;
     cursor: pointer;
-    height: 30px;
+    height: 50px;
     font-size: 17px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  button {
+    float: right;
   }
 </style>

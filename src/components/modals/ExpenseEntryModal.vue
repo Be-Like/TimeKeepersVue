@@ -550,7 +550,6 @@ export default {
         country: this.country,
         zipcode: this.zipcode,
       }
-      console.log('Company and title?', formData)
 
       this.expenseEntry ? this.editExpense(formData) : this.addExpense(formData)
       this.$router.back()

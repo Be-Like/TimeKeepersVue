@@ -4,7 +4,7 @@
       <div class="modal">
         <form class="modal-dialog" @submit.prevent="saveEntry">
           <!-- Title -->
-          <div class="modal-title" @click="test">
+          <div class="modal-title">
             <p>{{ jobEntry ? 'Edit' : 'Add' }} Job Entry</p>
           </div>
           <!-- Body -->

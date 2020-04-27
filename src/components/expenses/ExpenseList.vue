@@ -55,6 +55,7 @@ export default {
 <style lang="scss" scoped>
   .expense-list-container {
     border-right: 1px solid #ccc;
+    height: 100%;
   }
 
   .expense-list-header {
