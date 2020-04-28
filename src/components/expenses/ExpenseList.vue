@@ -18,7 +18,7 @@
       <tr
         v-for="expense in expenses"
         :key="expense._id"
-        @click="setSelectedExpense(expense)"
+        @click="selectExpense(expense)"
       >
         <td class="outer-info">{{ expense.expense }}</td>
         <td class="secondary-info">{{ getFormattedDate(expense.expenseDate) }}</td>
@@ -32,6 +32,13 @@
 import { formatDate } from '../../miscellaneous/format-dates'
 import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
+  props: {
+    dashboardComponent: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   computed: {
     ...mapState('expenses', {
       expenses: store => store.expenseArray
@@ -47,6 +54,12 @@ export default {
     ...mapMutations('expenses', ['setSelectedExpense']),
     getFormattedDate(date) {
       return formatDate(date)
+    },
+    selectExpense(expense) {
+      if (this.dashboardComponent) {
+        this.$router.push( {name: 'Expenses' })
+      }
+      this.setSelectedExpense(expense)
     }
   }
 }
@@ -54,6 +67,7 @@ export default {
 
 <style lang="scss" scoped>
   .expense-list-container {
+    border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
     height: 100%;
   }

@@ -1,14 +1,16 @@
 <template>
   <div class="dashboard">
     <div class="row">
-      <div class="col-4 dashboard-left height-nav">
+      <div class="dashboard-left height-nav">
         <h3>Sup bro</h3>
       </div>
-      <div class="col-4 dashboard-center height-nav">
+      <div class="dashboard-center height-nav">
         <JobEntries />
       </div>
-      <div class="col-4 dashboard-right height-nav">
-        <Expenses />
+      <div class="dashboard-right height-nav">
+        <Expenses
+          :dashboardComponent="true"
+         />
       </div>
     </div>
     <!-- Modals -->
@@ -39,6 +41,16 @@ export default {
   .dashboard {
     margin: 0 10%;
     overflow: hidden;
+  }
+
+  .dashboard-left,
+  .dashboard-right {
+    width: 32.33%;
+  }
+
+  .dashboard-center {
+    margin: 0 1.5%;
+    width: 32.33%;
   }
 
   .height-nav {
