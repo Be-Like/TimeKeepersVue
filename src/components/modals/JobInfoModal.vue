@@ -101,6 +101,7 @@
               class="form-control"
               v-model="formData.pay"
               type="number"
+              step=".01"
               :placeholder="formData.paymentType === 'hourly' ? 'Pay Rate' : 'Pay'"
             >
             <div class="form-error" v-if="validations.pay">Pay/Pay rate is required</div>
@@ -508,37 +509,43 @@
               <input
                 class="form-control"
                 v-model="formData.federalIncomeTax"
-                type="text"
+                type="number"
+                step=".01"
                 placeholder="Federal Income Tax (%)"
               >
               <input
                 class="form-control"
                 v-model="formData.stateIncomeTax"
-                type="text"
+                type="number"
+                step=".01"
                 placeholder="State Income Tax (%)"
               >
               <input
                 class="form-control"
                 v-model="formData.socialSecurity"
-                type="text"
+                type="number"
+                step=".01"
                 placeholder="Social Security (%)"
               >
               <input
                 class="form-control"
                 v-model="formData.medicare"
-                type="text"
+                type="number"
+                step=".01"
                 placeholder="Medicare (%)"
               >
               <input
                 class="form-control"
                 v-model="formData.retirement"
-                type="text"
+                type="number"
+                step=".01"
                 placeholder="Individual Retirement (%)"
               >
               <input
                 class="form-control"
                 v-model="formData.otherWithholdings"
-                type="text"
+                type="number"
+                step=".01"
                 placeholder="Other Withholdings (%)"
               >
             </div>
@@ -667,14 +674,22 @@ export default {
       this.validations.company = this.formData.company ? false : true
       this.validations.jobTitle = this.formData.jobTitle ? false : true
       this.validations.pay = this.formData.pay ? false : true
-      this.validations.payPeriod = this.formData.payPeriod ? false : true
-      this.validations.payDate = this.formData.payDate ? false : true
+
+      let salaryCheck = this.formData.paymentType == 'salary' ? true : false
+
+      if (salaryCheck) {
+        this.validations.payPeriod = this.formData.payPeriod ? false : true
+        this.validations.payDate = this.formData.payDate ? false : true
+      } else {
+        this.validations.payPeriod = null
+        this.validations.payDate = null
+      }
 
       if (
-        !this.validations.company ||
-        !this.validations.jobTitle ||
-        !this.validations.pay ||
-        !this.validations.payPeriod ||
+        !this.validations.company &&
+        !this.validations.jobTitle &&
+        !this.validations.pay &&
+        !this.validations.payPeriod &&
         !this.validations.payDate
       ) {
         this.isValid = true

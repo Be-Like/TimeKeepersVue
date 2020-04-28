@@ -559,8 +559,8 @@ export default {
       this.validations.expense = this.expense ? false : true
       this.validations.cost = this.cost ? false : true
 
-      if (!this.validations.expense ||
-        !this.validations.cost ||
+      if (!this.validations.expense &&
+        !this.validations.cost &&
         !this.validations.selectedJob) {
         this.isValid = true
       }

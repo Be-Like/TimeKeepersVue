@@ -221,8 +221,8 @@ export default {
       this.validations.endTime = this.endTime ? false : true
 
       if (
-        !this.validations.job ||
-        !this.validations.startTime ||
+        !this.validations.job &&
+        !this.validations.startTime &&
         !this.validations.endTime
       ) {
         this.isValid = true
