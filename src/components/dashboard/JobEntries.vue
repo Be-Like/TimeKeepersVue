@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="entry-list-container">
     <!-- Header with add job entry -->
     <div class="row job-entry-header">
       <div class="col-9">
@@ -14,24 +14,21 @@
       </div>
     </div>
     <!-- Entries -->
-    <div class="entry-list-container">
-      <div
-        class="entry-index"
-        v-for="(entry, index) in getJobEntriesArray"
-        :key="index"
+    <table>
+      <tr
+        v-for="entry in getJobEntriesArray"
+        :key="entry._id"
+        @click="selectJobEntry(entry)"
       >
-        <p class="job-list-name col-10">
-          {{ entry.company }} <small>{{ entry.jobTitle }}</small>
-        </p>
-        <p class="job-list-pay col-2">${{ entry.pay }}</p>
-        <span class="horizontal-line" />
-      </div>
-    </div>
+        <td>{{ entry.company }} <small>{{ entry.jobTitle }}</small></td>
+        <td>${{ entry.pay.toFixed(2) }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
   mounted() {
     this.getJobEntries()
@@ -43,38 +40,50 @@ export default {
 
   methods: {
     ...mapActions('jobEntries', ['getJobEntries']),
+    ...mapMutations('jobEntries', ['setSelectedJobEntry']),
+    ...mapMutations('calendar', ['setSelectedDate']),
     selectJobEntry(entry) {
-      console.log('Entry', entry)
+      this.setSelectedJobEntry(entry)
+      this.setSelectedDate(new Date(entry.startTime))
+      this.$router.push({ name: 'Calendar' })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  .entry-list-container {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    height: 100%;
+  }
+
   .job-entry-header {
     align-items: center;
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
     padding: 10px 10px;
   }
 
-  .entry-list-container {
-    height: calc(100vh - 143.44px);
-    overflow: auto;
-  }
-
-  .entry-index {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .horizontal-line {
-    border-top: 1px solid #ccc;
-    display: block;
-    margin-bottom: 1px;
+  table {
+    border-collapse: collapse;
     width: 100%;
   }
 
-  .job-list-pay {
-    text-align: right;
+  tr {
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    height: 50px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    td {
+      padding: 0 10px;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
   }
 </style>
