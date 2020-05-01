@@ -38,6 +38,7 @@
                   placeholder="Select start time"
                 />
                 <div class="form-error" v-if="validations.startTime">Start time is required</div>
+                <div class="form-error" v-if="validations.endTimeAfterStart">Start time must be before start</div>
               </div>
               <div class="start-end-time">
                 <label>End Time</label>
@@ -47,9 +48,12 @@
                   type="datetime"
                   :show-second="false"
                   :confirm="true"
+                  :disabled-date="notBeforeStartDate"
+                  :disabled-time="notBeforeStartTime"
                   placeholder="Select start time"
                 />
                 <div class="form-error" v-if="validations.endTime">End time is required</div>
+                <div class="form-error" v-if="validations.endTimeAfterStart">End time must be after start</div>
               </div>
             </div>
             <div class="form-group">
@@ -145,7 +149,25 @@ export default {
       validations: {
         job: null,
         startTime: null,
-        endTime: null
+        endTime: null,
+        endTimeAfterStart: null
+      }
+    }
+  },
+
+  watch: {
+    startTime() {
+      if (this.endTime < this.startTime && this.endTime) {
+        this.validations.endTimeAfterStart = true
+      } else {
+        this.validations.endTimeAfterStart = false
+      }
+    },
+    endTime() {
+      if (this.endTime < this.startTime) {
+        this.validations.endTimeAfterStart = true
+      } else {
+        this.validations.endTimeAfterStart = false
       }
     }
   },
@@ -180,6 +202,13 @@ export default {
   methods: {
     ...mapActions('jobEntries', ['addJobEntry', 'editJobEntry']),
     ...mapActions('management', ['getJobs']),
+    notBeforeStartDate(date) {
+      let start = new Date(this.startTime)
+      return date < start.setDate(start.getDate() - 1) && start !== null
+    },
+    notBeforeStartTime(date) {
+      return date < new Date(this.startTime)
+    },
     addBreak() {
       this.breakTimes.push({
         startTime: null,
@@ -223,7 +252,8 @@ export default {
       if (
         !this.validations.job &&
         !this.validations.startTime &&
-        !this.validations.endTime
+        !this.validations.endTime &&
+        !this.validations.endTimeAfterStart
       ) {
         this.isValid = true
       }
