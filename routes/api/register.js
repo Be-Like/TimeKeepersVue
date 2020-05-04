@@ -3,7 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const config = require('config');
+const { JWT_SECRET } = require('../../config')
 
 const User = require('../../models/User');
 
@@ -58,7 +58,7 @@ router.post(
       // Create jwt and pass user id
       jwt.sign(
         { user: { id: user.id } },
-        config.get('jwtSecret'),
+        JWT_SECRET,
         (error, token) => {
           if (error) {
             throw error;
