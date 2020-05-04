@@ -74,6 +74,8 @@
                     type="datetime"
                     :show-second="false"
                     :confirm="true"
+                    :disabled-date="disableDates(startTime, endTime)"
+                    :disabled-time="disableTimes(startTime, endTime)"
                     placeholder="Select start break time"
                   />
                 </div>
@@ -84,6 +86,8 @@
                     type="datetime"
                     :show-second="false"
                     :confirm="true"
+                    :disabled-date="disableDates(breakTimes[index].startTime, endTime)"
+                    :disabled-time="disableTimes(breakTimes[index].startTime, endTime)"
                     placeholder="Select end break time"
                   />
                   <i
@@ -206,10 +210,27 @@ export default {
     ...mapActions('management', ['getJobs']),
     notBeforeStartDate(date) {
       let start = new Date(this.startTime)
-      return date < start.setDate(start.getDate() - 1) && start !== null
+      return date < new Date(start.getTime() - 86399999) && start !== null
     },
     notBeforeStartTime(date) {
       return date < new Date(this.startTime)
+    },
+    disableDates(from, to) {
+      return date => {
+        return date > new Date(to + 86399999) || date < new Date(from - 86399999)
+      }
+    },
+    disableTimes(from, to) {
+      return date => {
+        return date > to || date < from || this.test(date)
+      }
+    },
+    test(date) {
+      // let arr = []
+      for (let i = 0; i < this.breakTimes.length; i++) {
+        if (date > this.breakTimes[i].startTime && date < this.breakTimes[i].endTime) return true
+        // return arr.some(true)
+      }
     },
     dismissWarnings() {
       this.validations.nullTimes = false
@@ -272,6 +293,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .mx-calendar-content .cell.active {
+    background-color: #42b983;
+  }
+
   .modal-title {
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
   }
