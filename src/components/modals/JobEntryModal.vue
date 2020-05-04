@@ -26,7 +26,7 @@
               </select>
               <div class="form-error" v-if="validations.job">Job is required</div>
             </div>
-            <div class="form-group">
+            <div class="form-group" @click="dismissWarnings">
               <div class="start-end-time">
                 <label>Start Time</label>
                 <date-picker
@@ -60,6 +60,7 @@
               <div class="inline-icon">
                 <label>Break Times</label>
                 <i class="material-icons add-break-icon" @click="addBreak">add</i>
+                <label v-if="validations.nullTimes"><small>Please add start and end time</small></label>
               </div>
               <div
                 v-for="(time, index) in breakTimes"
@@ -150,7 +151,8 @@ export default {
         job: null,
         startTime: null,
         endTime: null,
-        endTimeAfterStart: null
+        endTimeAfterStart: null,
+        nullTimes: false,
       }
     }
   },
@@ -209,7 +211,14 @@ export default {
     notBeforeStartTime(date) {
       return date < new Date(this.startTime)
     },
+    dismissWarnings() {
+      this.validations.nullTimes = false
+    },
     addBreak() {
+      if (!this.startTime || !this.endTime) {
+        this.validations.nullTimes = true
+        return
+      }
       this.breakTimes.push({
         startTime: null,
         endTime: null
@@ -275,6 +284,10 @@ export default {
   label {
     font-size: 18px;
     padding: 0 10px;
+
+    small {
+      color: #ff0800;
+    }
   }
 
   .start-end-time {
