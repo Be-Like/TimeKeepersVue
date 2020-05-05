@@ -61,6 +61,7 @@
                 <label>Break Times</label>
                 <i class="material-icons add-break-icon" @click="addBreak">add</i>
                 <label v-if="validations.nullTimes"><small>Please add start and end time</small></label>
+                <label v-if="validations.validTimeEntry"><small>The break time cannot be greater than the total shift</small></label>
               </div>
               <div
                 v-for="(time, index) in breakTimes"
@@ -156,6 +157,7 @@ export default {
         startTime: null,
         endTime: null,
         endTimeAfterStart: null,
+        validTimeEntry: null,
         nullTimes: false,
       }
     }
@@ -230,6 +232,19 @@ export default {
         if (date >= this.breakTimes[i].startTime && date <= this.breakTimes[i].endTime) return true
       }
     },
+    validateBreakTimes() {
+      let shift = this.endTime - this.startTime
+      let totalBreakTime = 0
+      this.breakTimes.forEach(time => {
+        totalBreakTime += (time.endTime - time.startTime)
+      })
+
+      console.log('Shift', shift)
+      console.log('Break Time', totalBreakTime)
+      console.log('Result', shift - totalBreakTime)
+
+      return shift - totalBreakTime > 0 ? false : true
+    },
     dismissWarnings() {
       this.validations.nullTimes = false
     },
@@ -276,12 +291,14 @@ export default {
       this.validations.job = this.selectedJob ? false : true
       this.validations.startTime = this.startTime ? false : true
       this.validations.endTime = this.endTime ? false : true
+      this.validations.validTimeEntry = this.validateBreakTimes()
 
       if (
         !this.validations.job &&
         !this.validations.startTime &&
         !this.validations.endTime &&
-        !this.validations.endTimeAfterStart
+        !this.validations.endTimeAfterStart &&
+        !this.validations.validTimeEntry
       ) {
         this.isValid = true
       }
