@@ -222,14 +222,12 @@ export default {
     },
     disableTimes(from, to) {
       return date => {
-        return date > to || date < from || this.test(date)
+        return date > to || date < from || this.checkBreakTimes(date)
       }
     },
-    test(date) {
-      // let arr = []
+    checkBreakTimes(date) {
       for (let i = 0; i < this.breakTimes.length; i++) {
-        if (date > this.breakTimes[i].startTime && date < this.breakTimes[i].endTime) return true
-        // return arr.some(true)
+        if (date >= this.breakTimes[i].startTime && date <= this.breakTimes[i].endTime) return true
       }
     },
     dismissWarnings() {
