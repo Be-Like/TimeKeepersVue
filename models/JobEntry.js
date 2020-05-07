@@ -24,11 +24,11 @@ const JobEntrySchema = new Schema({
   },
   hoursWorked: {
     type: Number,
-    default: null
+    default: 0
   },
   pay: {
     type: Number,
-    default: null
+    default: 0
   },
   notes: {
     type: String,

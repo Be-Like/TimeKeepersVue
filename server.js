@@ -18,6 +18,7 @@ app.use(express.json({ extended: false }));
 // Define routes
 app.use('/api/register', require('./routes/api/register.js'));
 app.use('/api/login', require('./routes/api/login.js'));
+app.use('/api/punch-card', require('./routes/api/punchCard.js'));
 app.use('/api/jobs', require('./routes/api/jobs.js'));
 app.use('/api/job-entry', require('./routes/api/jobEntry.js'));
 app.use('/api/expenses', require('./routes/api/expenses.js'));

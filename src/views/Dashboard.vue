@@ -2,7 +2,7 @@
   <div class="dashboard">
     <div class="row">
       <div class="dashboard-left height-nav">
-        <h3>Sup bro</h3>
+        <PunchCard />
       </div>
       <div class="dashboard-center height-nav">
         <JobEntries />
@@ -19,12 +19,14 @@
 </template>
 
 <script>
+import PunchCard from '../components/dashboard/PunchCard'
 import JobEntries from '../components/dashboard/JobEntries'
 import Expenses from '../components/expenses/ExpenseList'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
+    PunchCard,
     JobEntries,
     Expenses,
   },
@@ -33,6 +35,14 @@ export default {
     ...mapState('jobEntries', {
       entry: state => state
     })
+  },
+
+  created() {
+    this.getJobs()
+  },
+
+  methods: {
+    ...mapActions('management', ['getJobs'])
   }
 }
 </script>

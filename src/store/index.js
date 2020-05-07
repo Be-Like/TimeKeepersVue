@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import auth from './auth'
+import punchCard from './punchCard'
 import management from './management'
 import jobEntries from './jobEntries'
 import expenses from './expenses'
@@ -24,6 +25,7 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
+    punchCard,
     management,
     jobEntries,
     expenses,
