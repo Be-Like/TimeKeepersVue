@@ -31,14 +31,32 @@ export const clockIn = async jobId => {
   }
 }
 
-export const clockOut = async punchCardId => {
+export const clockOut = async punchCard => {
   try {
+    let body = JSON.stringify({
+      endTime: new Date(),
+      breakTimes: punchCard.breakTimes
+    })
     const res = await axios.put(
-      `/api/punch-card/${punchCardId}`,
-      {endTime: new Date()},
+      `/api/punch-card/clock-out/${punchCard._id}`,
+      body,
       config
     )
 
+    return res.data
+  } catch (error) {
+    const errors = error.response
+    return { errors: errors }
+  }
+}
+
+export const setBreakTimes = async (punchCardId, breakTimes) => {
+  try {
+    const res = await axios.put(
+      `/api/punch-card/break/${punchCardId}`,
+      { breakTimes },
+      config
+    )
     return res.data
   } catch (error) {
     const errors = error.response

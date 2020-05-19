@@ -8,7 +8,8 @@
     <div class="punch-card-body">
       <select
         class="form-control"
-        v-model="selectedJob"
+        :disabled="punchCard ? true : false"
+        v-model="jobId"
       >
         <option value="">Select a job</option>
         <option
@@ -22,7 +23,7 @@
       <button
         v-if="!punchCard"
         class="btn btn-primary"
-        @click="clockIn(selectedJob)"
+        @click="clockIn(jobId)"
       >
         Clock-In
       </button>
@@ -33,36 +34,41 @@
       >
         Clock-Out
       </button>
-      <!-- <button
+      <button
         class="btn"
+        @click="beginBreak"
       >
         Start Break
       </button>
       <button
         class="btn"
+        @click="endBreak"
       >
         End Break
-      </button> -->
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
-  data() {
-    return {
-      selectedJob: ''
-    }
-  },
-
   computed: {
     ...mapState('management', {
       jobs: state => state.jobsArray
     }),
     ...mapState('punchCard', {
-      punchCard: state => state.punchCard
-    })
+      punchCard: state => state.punchCard,
+      selectedJob: state => state.selectedJob,
+    }),
+    jobId: {
+      get() {
+        return this.selectedJob
+      },
+      set(value) {
+        this.setSelectedJob(value)
+      }
+    }
   },
 
   mounted() {
@@ -70,7 +76,14 @@ export default {
   },
 
   methods: {
-    ...mapActions('punchCard', ['getPunchCard', 'clockIn', 'clockOut'])
+    ...mapMutations('punchCard', ['setSelectedJob']),
+    ...mapActions('punchCard', [
+      'getPunchCard',
+      'clockIn',
+      'clockOut',
+      'beginBreak',
+      'endBreak'
+    ])
   }
 }
 </script>

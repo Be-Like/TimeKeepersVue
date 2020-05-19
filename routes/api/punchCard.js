@@ -49,7 +49,7 @@ router.post(
         job,
         startTime: new Date(),
         endTime: undefined,
-        breakTimes: undefined
+        breakTimes: undefined,
       })
 
       const entry = await punchCard.save();
@@ -62,12 +62,12 @@ router.post(
 )
 
 /**
- * @route PUT api/punch-card/:id
- * @description Update current punch card
+ * @route PUT api/punch-card/clock-out/:id
+ * @description Clock out and create new job entry
  * @access Private
  */
 router.put(
-  '/:punch_card_id',
+  '/clock-out/:punch_card_id',
   auth,
   async (req, res) => {
     try {
@@ -83,26 +83,48 @@ router.put(
 
       const { endTime, breakTimes } = req.body
 
-      if (endTime) {
-        const newJobEntry = new JobEntry({
-          user: req.user.id,
-          job: punchCard.job,
-          startTime: punchCard.startTime,
-          endTime: endTime,
-          breakTimes: [], // Need to work on these
-          hoursWorked: undefined, // Need to work on these
-          pay: undefined, // Need to work on these
-          notes: undefined // Need to work on these
-        })
-
-        const entry = await newJobEntry.save()
-        punchCard.remove()
-        return res.json(entry)
-      }
-      punchCard.breakTimes.push({
-        startTime: "2020-04-15T07:30Z",
-        endTime: "2020-04-15T17:30Z"
+      const newJobEntry = new JobEntry({
+        user: req.user.id,
+        job: punchCard.job,
+        startTime: punchCard.startTime,
+        endTime,
+        breakTimes,
+        hoursWorked: undefined, // TODO: Need to work on these
+        pay: undefined, // TODO: Need to work on these
+        notes: undefined // TODO: Need to work on these
       })
+
+      const entry = await newJobEntry.save()
+      punchCard.remove()
+      return res.json(entry)
+    } catch (error) {
+      console.error(error.message)
+      res.status(500).send('Server error')
+    }
+  }
+)
+
+/**
+ * @route PUT api/punch-card/break/:id
+ * @description Update punchcard with new break item in array
+ * @access Private
+ */
+router.put(
+  '/break/:punch_card_id',
+  auth,
+  async (req, res) => {
+    try {
+      const punchCard = await PunchCard.findById(req.params.punch_card_id)
+
+      if (!punchCard) {
+        return res.status(404).json({ msg: 'Punch card not found' })
+      }
+
+      if (punchCard.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'User not authorized' })
+      }
+      const { breakTimes } = req.body
+      punchCard.breakTimes = breakTimes
 
       await punchCard.save()
       res.json(punchCard)
