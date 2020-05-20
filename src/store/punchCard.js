@@ -24,6 +24,7 @@ const mutations = {
 const actions = {
   async getPunchCard({ commit }) {
     const res = await getPunchCard()
+    if (res.length == 0) return
     commit('setPunchCard', res[0])
     commit('setSelectedJob', res[0].job)
   },

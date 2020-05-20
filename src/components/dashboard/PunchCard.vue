@@ -22,28 +22,28 @@
       </select>
       <button
         v-if="!punchCard"
-        class="btn btn-primary"
+        class="btn btn-success clock-in"
         @click="clockIn(jobId)"
       >
         Clock-In
       </button>
       <button
         v-if="punchCard"
-        class="btn"
+        class="btn btn-danger"
         @click="clockOut"
       >
         Clock-Out
       </button>
       <button
-        v-if="!onBreak"
-        class="btn"
+        v-if="!onBreak && punchCard"
+        class="btn btn-outline-warn"
         @click="beginBreak"
       >
         Start Break
       </button>
       <button
-        v-else
-        class="btn"
+        v-else-if="onBreak && punchCard"
+        class="btn btn-warn"
         @click="endBreak"
       >
         End Break
@@ -75,6 +75,7 @@ export default {
       if (this.punchCard) {
         let breakTimes = this.punchCard.breakTimes
         let length = breakTimes.length
+        if (length == 0) return false
         let endTime = length > 0 ?
           breakTimes[breakTimes.length - 1].endTime : null
 
@@ -112,5 +113,24 @@ export default {
     align-items: center;
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
     padding: 10px 10px;
+  }
+
+  .punch-card-body {
+    padding: 10px 10px;
+
+    select, .clock-in {
+      width: 100%;
+    }
+
+    button:not(.clock-in) {
+      width: calc(50% - 10px);
+
+      &:first-child {
+        margin-right: 10px;
+      }
+      &:last-child {
+        margin-left: 10px;
+      }
+    }
   }
 </style>

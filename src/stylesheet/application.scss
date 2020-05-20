@@ -76,6 +76,38 @@
   border-color: #007bff;
 }
 
+.btn-danger {
+  color: #fff;
+  background-color: #db3838;
+  border-color: #db3838;
+}
+
+.btn-warn {
+  color: #000;
+  background-color: #fef00b; // #f6da55
+  border-color: #fef00b;
+}
+
+.btn-outline-warn {
+  color: #9e9827;
+  background-color: transparent;
+  background-image: none;
+  border-color: #fef00b;
+}
+
+.btn-success {
+  color: #000;
+  background-color: #42b983;
+  border-color: #42b983;
+}
+
+.btn-outline-success {
+  color: #000;
+  background-color: transparent;
+  background-image: none;
+  border-color: green;
+}
+
 .btn:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
