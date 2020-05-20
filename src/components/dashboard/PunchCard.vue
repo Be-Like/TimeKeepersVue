@@ -35,12 +35,14 @@
         Clock-Out
       </button>
       <button
+        v-if="!onBreak"
         class="btn"
         @click="beginBreak"
       >
         Start Break
       </button>
       <button
+        v-else
         class="btn"
         @click="endBreak"
       >
@@ -68,6 +70,17 @@ export default {
       set(value) {
         this.setSelectedJob(value)
       }
+    },
+    onBreak() {
+      if (this.punchCard) {
+        let breakTimes = this.punchCard.breakTimes
+        let length = breakTimes.length
+        let endTime = length > 0 ?
+          breakTimes[breakTimes.length - 1].endTime : null
+
+        return endTime ? false : true
+      }
+      return false
     }
   },
 
