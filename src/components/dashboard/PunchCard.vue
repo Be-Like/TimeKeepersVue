@@ -24,6 +24,7 @@
           {{ job.company }} <small>{{ job.jobTitle }}</small>
         </option>
       </select>
+      <!-- Display stopwatch here -->
       <button
         v-if="!punchCard"
         class="btn btn-success clock-in"
@@ -89,6 +90,10 @@ export default {
     }
   },
 
+  /**
+   * Alex: mounted() is a lifecycle method, it runs when the component
+   * is mounted to the view. Just a hint.
+  */
   mounted() {
     this.getPunchCard()
   },
