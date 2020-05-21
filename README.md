@@ -1,15 +1,32 @@
-# time-keepers-vue
+# TimeKeepers Vue
 
 ## Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Add .env file to main folder
+Environment variable names must be:
 ```
-npm run serve
+JWT_SECRET
+MONGO_URI
 ```
 
+### Compiles and hot-reloads for development
+Two parts: 
+* client is the front-end Vue applicaton
+* server is the back-end Nodejs application
+
+In two different terminals run:
+```
+npm run client
+```
+and
+```
+nodemon server
+```
+
+## Troubleshooting and Production Build (below)
 ### Compiles and minifies for production
 ```
 npm run build
@@ -19,6 +36,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
