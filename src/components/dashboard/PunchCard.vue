@@ -6,7 +6,11 @@
     </div>
     <!-- Body -->
     <div class="punch-card-body">
+      <h3 v-if="punchCard">
+        {{ getJobName(punchCard.job) }}
+      </h3>
       <select
+        v-else
         class="form-control"
         :disabled="punchCard ? true : false"
         v-model="jobId"
@@ -97,7 +101,11 @@ export default {
       'clockOut',
       'beginBreak',
       'endBreak'
-    ])
+    ]),
+    getJobName(id) {
+      let index = this.jobs.map(x => {return x._id}).indexOf(id)
+      return this.jobs[index].company + ' - ' + this.jobs[index].jobTitle
+    }
   }
 }
 </script>
@@ -117,6 +125,10 @@ export default {
 
   .punch-card-body {
     padding: 10px 10px;
+
+    h3 {
+      text-align: center;
+    }
 
     select, .clock-in {
       width: 100%;
