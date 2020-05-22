@@ -7,7 +7,7 @@
       </div>
       <div class="col-3 actions">
         <router-link
-          :to="{ name: 'addExpense' }"
+          :to="{ name: path }"
           tag="i"
           class="material-icons"
         >add</router-link>
@@ -39,6 +39,15 @@ export default {
     }
   },
 
+  data() {
+    return {
+      path: {
+        default: 'addExpense',
+        type: 'String'
+      }
+    }
+  },
+
   computed: {
     ...mapState('expenses', {
       expenses: store => store.expenseArray
@@ -47,6 +56,8 @@ export default {
 
   mounted() {
     this.getExpenses()
+    this.path = this.$parent.$el.className === 'dashboard' ?
+      'addExpenseDashboard' : 'addExpense'
   },
 
   methods: {

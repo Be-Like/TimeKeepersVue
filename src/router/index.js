@@ -44,7 +44,7 @@ const routes = [
         path: 'add-expense',
         component: ExpenseEntryModal,
         props: false,
-        name: 'addExpense'
+        name: 'addExpenseDashboard'
       }
     ],
     meta: {
