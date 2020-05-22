@@ -14,17 +14,19 @@
       </div>
     </div>
     <!-- Content: list -->
-    <table>
-      <tr
-        v-for="expense in expenses"
-        :key="expense._id"
-        @click="selectExpense(expense)"
-      >
-        <td class="outer-info">{{ expense.expense }}</td>
-        <td class="secondary-info">{{ getFormattedDate(expense.expenseDate) }}</td>
-        <td class="secondary-info outer-info">${{ expense.cost }}</td>
-      </tr>
-    </table>
+    <div class="expense-list-body">
+      <table>
+        <tr
+          v-for="expense in expenses"
+          :key="expense._id"
+          @click="selectExpense(expense)"
+        >
+          <td class="outer-info">{{ expense.expense }}</td>
+          <td class="secondary-info">{{ getFormattedDate(expense.expenseDate) }}</td>
+          <td class="secondary-info outer-info">${{ expense.cost }}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -87,6 +89,11 @@ export default {
     align-items: center;
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
     padding: 10px 10px;
+  }
+
+  .expense-list-body {
+    height: calc(100% - 79.44px);
+    overflow: auto;
   }
 
   table {
