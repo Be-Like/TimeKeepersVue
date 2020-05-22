@@ -14,16 +14,18 @@
       </div>
     </div>
     <!-- Entries -->
-    <table>
-      <tr
-        v-for="entry in getJobEntriesArray"
-        :key="entry._id"
-        @click="selectJobEntry(entry)"
-      >
-        <td>{{ entry.company }} <small>{{ entry.jobTitle }}</small></td>
-        <td>${{ entry.pay.toFixed(2) }}</td>
-      </tr>
-    </table>
+    <div class="job-entry-body">
+      <table>
+        <tr
+          v-for="entry in getJobEntriesArray"
+          :key="entry._id"
+          @click="selectJobEntry(entry)"
+        >
+          <td>{{ entry.company }} <small>{{ entry.jobTitle }}</small></td>
+          <td>${{ entry.pay.toFixed(2) }}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -62,6 +64,11 @@ export default {
     align-items: center;
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
     padding: 10px 10px;
+  }
+
+  .job-entry-body {
+    height: calc(100% - 79.44px);
+    overflow: auto;
   }
 
   table {

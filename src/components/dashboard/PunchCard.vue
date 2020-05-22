@@ -35,7 +35,7 @@
       <button
         v-if="punchCard"
         class="btn btn-danger"
-        @click="clockOut"
+        @click="clockingOut"
       >
         Clock-Out
       </button>
@@ -107,9 +107,14 @@ export default {
       'beginBreak',
       'endBreak'
     ]),
+    ...mapActions('jobEntries', ['getJobEntries']),
     getJobName(id) {
       let index = this.jobs.map(x => {return x._id}).indexOf(id)
       return this.jobs[index].company + ' - ' + this.jobs[index].jobTitle
+    },
+    async clockingOut() {
+      await this.clockOut()
+      this.getJobEntries()
     }
   }
 }
