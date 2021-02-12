@@ -24,13 +24,14 @@ jobs:
       # Runs a single command using the runners shell
       - name: Without ref
         uses: actions/checkout@v2
-        run: echo Hello, world!
         if: github.event.inputs.git-ref == ''
 
       # Runs a set of commands using the runners shell
       - name: With ref
         uses: actions/checkout@v2
         if: github.event.inputs.git-ref == ''
+
+        run: echo Hello, world!
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
