@@ -83,13 +83,20 @@ router.put(
 
       const { endTime, breakTimes } = req.body
 
+      let totalBreakTime = 0
+      breakTimes.forEach(time => {
+        totalBreakTime += time.endTime.getTime() - time.startTime.getTime()
+      });
+
+      const hoursWorked = (new Date(endTime).getTime() - punchCard.startTime.getTime() - totalBreakTime) / (60 * 60 * 1000)
+
       const newJobEntry = new JobEntry({
         user: req.user.id,
         job: punchCard.job,
         startTime: punchCard.startTime,
         endTime,
         breakTimes,
-        hoursWorked: undefined, // TODO: Need to work on these
+        hoursWorked,
         pay: undefined, // TODO: Need to work on these
         notes: undefined // TODO: Need to work on these
       })
